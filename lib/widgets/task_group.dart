@@ -21,16 +21,16 @@ class TaskGroupContainer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: color[400],
-        boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(0.4),
-            blurRadius: 10,
-            spreadRadius: 4,
-            offset: const Offset(2, 6),
-          )
-        ],
-        gradient: AppColors.getDarkLinearGradient(color),
+        color: AppColors.primaryColor.withOpacity(0.8),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: AppColors.primaryColor.withOpacity(0.4),
+        //     blurRadius: 10,
+        //     spreadRadius: 4,
+        //     offset: const Offset(2, 6),
+        //   )
+        // ],
+        // gradient: AppColors.getDarkLinearGradient(color),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
