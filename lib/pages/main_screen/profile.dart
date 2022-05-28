@@ -24,17 +24,14 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
           ),
-          const Positioned(
-            bottom: -50.0,
+          CircleAvatar(
+            radius: 80,
+            backgroundColor: Colors.black,
             child: CircleAvatar(
-              radius: 80,
-              backgroundColor: Colors.black,
-              child: CircleAvatar(
-                radius: 75,
-                backgroundImage: NetworkImage(
-                    'http://178.62.201.95/storage/users/1653664889-kareem.png'),
-              ),
-            )
+              radius: 75,
+              backgroundImage: NetworkImage(
+                  'http://178.62.201.95/storage/users/1653664889-kareem.png'),
+            ),
           ),
           const ListTile(
             title: Center(child: Text('Kareem El-Giushy')),
