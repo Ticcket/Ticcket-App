@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/models/event.dart';
 import 'package:sizer/sizer.dart';
+import 'package:ticcket/pages/scanner.dart';
 
 class EventScreen extends StatefulWidget {
   final Event event;
@@ -128,6 +129,13 @@ class _EventScreenState extends State<EventScreen> {
               ),
             const SizedBox(height: 20,),
             ElevatedButton(onPressed: () {}, child: const Text("Book Now")),
+            ElevatedButton(onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => QRScanner()
+                )
+              );
+            }, child: const Text("Scan Tickets")),
           ],
         ),
       ),
