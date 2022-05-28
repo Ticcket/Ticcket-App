@@ -6,9 +6,9 @@ import 'package:ticcket/pages/auth/signup.dart';
 import 'package:ticcket/pages/today_task.dart';
 
 class Routes {
-  static const login = "/login";
+  static const login = "/";
   static const signup = "/signup";
-  static const onBoarding = "/";
+  static const onBoarding = "/onboarding";
   static const home = "/home";
   static const changeData = "/profile/change";
   static const todaysTask = "/task/todays";
