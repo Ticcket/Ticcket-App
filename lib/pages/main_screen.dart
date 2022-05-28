@@ -24,6 +24,8 @@ class _MainScreenState extends State<MainScreen> {
     const ProfileScreen(),
   ];
 
+  PageController pv = new PageController();
+
   List<IconData> listOfIcons = [
     Icons.home_rounded,
     Icons.menu_open,
@@ -101,11 +103,12 @@ class _MainScreenState extends State<MainScreen> {
           itemCount: 4,
           itemBuilder: ((context, index) => InkWell(
               onTap: () {
-                setState(
-                  () {
-                    currentIndex = index;
-                  },
+                  setState(
+                    () {
+                      currentIndex = index;
+                    },
                 );
+                pv.animateToPage(currentIndex, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
               },
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
@@ -142,7 +145,15 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-      body: screens[currentIndex],
+      body: PageView(
+        controller: pv,
+        children: screens,
+        onPageChanged: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+      ),
     );
   }
 }
