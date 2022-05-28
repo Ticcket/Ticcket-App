@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:ticcket/pages/scanned_user.dart';
 import 'package:ticcket/widgets/camera_overlay.dart';
 
 class QRScanner extends StatefulWidget {
@@ -67,6 +68,11 @@ class _QRScannerState extends State<QRScanner> {
                 setState(() {
                   text = code;
                 });
+
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => ScannedUserScreen())
+                );
+
               }),
           QRScannerOverlay(overlayColour: Colors.black.withOpacity(0.5)),
           Center(child: Text(text ?? "", style: TextStyle(fontSize: 15, color: Colors.white),))
