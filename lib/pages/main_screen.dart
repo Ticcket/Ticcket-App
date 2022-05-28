@@ -1,23 +1,87 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:ticcket/pages/main_screen/events.dart';
+import 'package:ticcket/pages/main_screen/profile.dart';
+import 'package:ticcket/pages/main_screen/home.dart';
+import 'package:ticcket/pages/main_screen/organized_events.dart';
+import 'package:ticcket/core/res/color.dart';
+import 'package:ticcket/core/routes/routes.dart';
+import 'package:ticcket/widgets/circle_gradient_icon.dart';
 
-class NavBar extends StatefulWidget {
-  const NavBar({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<NavBar> createState() => _NavBarState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _NavBarState extends State<NavBar> {
+class _MainScreenState extends State<MainScreen> {
+
+  final screens = [
+    const HomeScreen(),
+    const EventsScreen(),
+    const OrganizedEventsScreen(),
+    const ProfileScreen(),
+  ];
+
   List<IconData> listOfIcons = [
     Icons.home_rounded,
-    Icons.favorite_rounded,
-    Icons.settings_rounded,
+    Icons.menu_open,
+    Icons.qr_code,
     Icons.person_rounded,
   ];
+
   int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          DateFormat.MMMEd().format(DateTime.now()),
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
+        elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: CircleGradientIcon(
+              onTap: () {
+                Navigator.pushNamed(context, Routes.todaysTask);
+              },
+              icon: Icons.calendar_month,
+              color: AppColors.primarySwatch,
+              iconSize: 24,
+              size: 40,
+            ),
+          )
+        ],
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Container(
+            width: 50,
+            height: 50,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            child: InkWell(
+              onTap: () {},
+              customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: const Icon(
+                Icons.menu_rounded,
+              ),
+            ),
+          ),
+        ),
+      ),
+      extendBody: true,
+      bottomNavigationBar: Container(
         margin: const EdgeInsets.all(20),
         height: MediaQuery.of(context).size.width * .155,
         decoration: BoxDecoration(
@@ -66,7 +130,7 @@ class _NavBarState extends State<NavBar> {
                   ),
                   Icon(
                     listOfIcons[index],
-                    size: MediaQuery.of(context).size.width * .09,
+                    size: MediaQuery.of(context).size.width * .076,
                     color: currentIndex == index
                         ? Colors.blueAccent
                         : Colors.black38,
@@ -77,6 +141,8 @@ class _NavBarState extends State<NavBar> {
             )
           ),
         ),
-      );
+      ),
+      body: screens[currentIndex],
+    );
   }
 }
