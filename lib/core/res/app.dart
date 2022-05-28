@@ -1,5 +1,6 @@
 class AppConstants {
   static const String _assets = "assets";
+  static const String server = "http://178.62.201.95/";
 
   static const String _svg = "$_assets/svg";
   static const String onBoardingSvg = "$_svg/onboarding.svg";

@@ -4,7 +4,19 @@ class AppColors {
   static bool isDarkMode = false;
 
   static Color get primaryColor => const Color(0xFF1D7CFF);
-  static MaterialColor get primarySwatch => Colors.blue;
+  static MaterialColor get primarySwatch => const MaterialColor(0xFF1D7CFF, {
+    50:Color.fromRGBO(29, 124, 255, .1),
+    100:Color.fromRGBO(29, 124, 255, .2),
+    200:Color.fromRGBO(29, 124, 255, .3),
+    300:Color.fromRGBO(29, 124, 255, .4),
+    400:Color.fromRGBO(29, 124, 255, .5),
+    500:Color.fromRGBO(29, 124, 255, .6),
+    600:Color.fromRGBO(29, 124, 255, .7),
+    700:Color.fromRGBO(29, 124, 255, .8),
+    800:Color.fromRGBO(29, 124, 255, .9),
+    900:Color.fromRGBO(29, 124, 255, 1),
+    }
+  );
   static Color get accentColor => isDarkMode ? primaryColor : Colors.grey[600]!;
   static Color get bgColor => isDarkMode ? Colors.black : Colors.grey[50]!;
 
