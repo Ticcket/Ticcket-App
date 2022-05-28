@@ -42,8 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                for(Event e in demo_events)
-                  EventCard(event: e),
+                for(int i =0; i < 5;i++)
+                  EventCard(event: demo_events[i]),
                 const SizedBox(
                   height: 40,
                 ),
