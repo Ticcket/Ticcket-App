@@ -117,18 +117,14 @@ class _EventScreenState extends State<EventScreen> {
               ]
             ),
             const SizedBox(height: 20,),
-            Expanded(
-              child: Text(
-                "Description",
-                style: TextStyle(fontWeight: FontWeight.w600,fontSize: 13.sp),
-              ),
+            Text(
+              "Description",
+              style: TextStyle(fontWeight: FontWeight.w600,fontSize: 13.sp),
             ),
             Divider(thickness: 1, color: AppColors.accentColor,),
-            Expanded(
-              child: Text(
-                  widget.event.description,
-                  style: TextStyle(fontSize: 12.sp),
-                )
+            Text(
+                widget.event.description,
+                style: TextStyle(fontSize: 12.sp),
               ),
             const SizedBox(height: 20,),
             ElevatedButton(onPressed: () {}, child: const Text("Book Now")),
