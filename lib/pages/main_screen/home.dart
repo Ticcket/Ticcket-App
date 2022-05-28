@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ticcket/models/event.dart';
+import 'package:ticcket/pages/ticket.dart';
 import 'package:ticcket/widgets/event_card.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/widgets/task_group.dart';
@@ -118,14 +119,23 @@ class _HomeScreenState extends State<HomeScreen> {
         StaggeredGridTile.count(
           crossAxisCellCount: 1,
           mainAxisCellCount: 1.3,
-          child: InkWell(
-            onTap: () => {},
-            child: const TaskGroupContainer(
-              color: Colors.pink,
-              icon: Icons.menu_book_rounded,
-              taskCount: "10 Tickets",
-              taskGroup: "My Tickets",
-            ),
+          child: Builder(
+            builder: (context) {
+              return InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => TicketsScreen()),
+                  );
+                  debugPrint("kareem");
+                },
+                child: const TaskGroupContainer(
+                  color: Colors.pink,
+                  icon: Icons.menu_book_rounded,
+                  taskCount: "10 Tickets",
+                  taskGroup: "My Tickets",
+                ),
+              );
+            }
           ),
         ),
         StaggeredGridTile.count(
