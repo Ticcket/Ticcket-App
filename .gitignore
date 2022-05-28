@@ -46,4 +46,3 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 lib/widgets/navbar.text
-lib/pages/scanner.text
