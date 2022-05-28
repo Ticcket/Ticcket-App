@@ -17,7 +17,7 @@ class _OrganizedEventsScreenState extends State<OrganizedEventsScreen> {
       children: [
         Container(
           color: AppColors.bgColor,
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+          padding: const EdgeInsets.only(bottom: 10.0, top: 20.0, right: 15.0, left: 15.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

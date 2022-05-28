@@ -60,7 +60,7 @@ class _EventScreenState extends State<EventScreen> {
                   padding: const EdgeInsets.all(10.0),
                   child: SizedBox(
                     width: 35.w,
-                    child: Image.network("http://178.62.201.95/storage/events/1653069980-turing_point.png")
+                    child: Image.network(widget.event.logo)
                   ),
                 ),
                 Expanded(
