@@ -55,84 +55,88 @@ Widget userInput(String hintTitle, TextInputType keyboardType, {bool password=fa
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    Form(
-                      child: Column(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child:  Text("Full Name:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                child: MediaQuery.removePadding(
+                  removeTop: true,
+                  context: context,
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      Form(
+                        child: Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child:  Text("Full Name:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                              ),
                             ),
-                          ),
-                          userInput('John Doe', TextInputType.name),
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child:  Text("E-mail:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                            userInput('John Doe', TextInputType.name),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child:  Text("E-mail:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                              ),
                             ),
-                          ),
-                          userInput('example@example.com', TextInputType.emailAddress),
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child:  Text("Password:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                            userInput('example@example.com', TextInputType.emailAddress),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child:  Text("Password:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                              ),
                             ),
-                          ),
-                          userInput('******', TextInputType.text, password: true),
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child:  Text("Re-Password:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                            userInput('******', TextInputType.text, password: true),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child:  Text("Re-Password:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                              ),
                             ),
+                            userInput('******', TextInputType.text, password: true),
+                            
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(AppColors.primaryColor),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                              )
                           ),
-                          userInput('******', TextInputType.text, password: true),
+                        ),
+                        onPressed: () {
                           
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                          child: Text('Sign Up', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white,),),
+                        ),
+                      ),
+                      const SizedBox(height: 20,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Already Have An Account ? ', style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),),
+                          TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                          ),
+                        ),
                         ],
                       ),
-                    ),
-                    const SizedBox(height: 10,),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(AppColors.primaryColor),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                            )
-                        ),
-                      ),
-                      onPressed: () {
-          
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-                        child: Text('Sign Up', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white,),),
-                      ),
-                    ),
-                    const SizedBox(height: 20,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text('Already Have An Account ? ', style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),),
-                        TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                      ),
-                      ],
-                    ),
-                    const Divider(thickness: 0, color: Colors.transparent,)
-                  ],
+                      const Divider(thickness: 0, color: Colors.transparent,)
+                    ],
+                  ),
                 ),
               ),
             ),
