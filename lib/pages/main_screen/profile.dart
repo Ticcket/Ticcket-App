@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ticcket/core/res/app.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key, String? title}) : super(key: key);
@@ -31,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
             child: CircleAvatar(
               radius: 75,
               backgroundImage: NetworkImage(
-                  '${AppConstants.server}storage/users/1653664889-kareem.png'),
+                  'http://178.62.201.95/storage/users/1653664889-kareem.png'),
             ),
           ),
           const ListTile(

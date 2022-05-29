@@ -49,5 +49,5 @@ class Ticket {
 
 
 List<Ticket> demo_tickets = [
-  Ticket(token: "eUZfmftWiP", qrCode: "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=eUZfmftWiP&choe=UTF-8", userEmail: "kemoo@kareem.com", eventTitle: "Technne Summit", eventLogo: "${AppConstants.server}storage/events/1653069980-turing_point.png")
+  Ticket(token: "eUZfmftWiP", qrCode: "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=eUZfmftWiP&choe=UTF-8", userEmail: "kemoo@kareem.com", eventTitle: "Technne Summit", eventLogo: "http://${AppConstants.server}/storage/events/1653069980-turing_point.png")
 ];

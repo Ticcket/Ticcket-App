@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ticcket/core/res/color.dart';
+import 'package:ticcket/models/user.dart';
+import 'package:ticcket/services/auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -10,27 +12,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  Widget userInput(String hintTitle, TextInputType keyboardType, {bool password=false}) {
-    return Container(
-      height: 50,
-      margin: const EdgeInsets.only(bottom: 15),
-      decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
-        child: TextFormField(
-          autocorrect: false,
-          enableSuggestions: false,
-          obscureText: password,
-          autofocus: false,
-          decoration: InputDecoration.collapsed(
-            hintText: hintTitle,
-            hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
-          ),
-          keyboardType: keyboardType,
-        ),
-      ),
-    );
-  }
+  GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  String _email = "";
+  String _password = "";
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +44,57 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: ListView(
                   children: [
                     Form(
+                      key: _formKey,
                       child: Column(
                         children: [
-                          userInput('example@example.com', TextInputType.emailAddress),
-                          userInput('******', TextInputType.text, password: true),
+                          Container(
+                            height: 50,
+                            margin: const EdgeInsets.only(bottom: 15),
+                            decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
+                              child: TextFormField(
+                                validator: (v) => v == null || v == "" ? "Can't Be Empty": null,
+                                onSaved: (v) {this._email = v.toString();},
+                                autocorrect: false,
+                                enableSuggestions: false,
+                                autofocus: false,
+                                decoration: InputDecoration.collapsed(
+                                  hintText: "example@example.com",
+                                  hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                                ),
+                                keyboardType: TextInputType.emailAddress,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            margin: const EdgeInsets.only(bottom: 15),
+                            decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
+                              child: TextFormField(
+                                validator: (v) {
+                                  if(v!.length < 7){
+                                    return 'Password Can\'t Be Less Than 7';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (v) {this._password = v.toString();},
+                                autocorrect: false,
+                                enableSuggestions: false,
+                                obscureText: true,
+                                autofocus: false,
+                                decoration: InputDecoration.collapsed(
+                                  hintText: "******",
+                                  hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                                ),
+                                keyboardType: TextInputType.text,
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: 10,),
-                          ElevatedButton(
+                          _loading ? CircularProgressIndicator() : ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(AppColors.primaryColor),
                               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -73,8 +103,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                   )
                               ),
                             ),
-                            onPressed: () {
-                              Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+                            onPressed: () async {
+                              setState(() {
+                                _loading = true;
+                              });
+                              if(this._formKey.currentState!.validate()) {
+                                this._formKey.currentState?.save();
+                                var response = await Auth.login(email: this._email, password: this._password);
+                                if (response != null && response[0]) {
+                                  var user = User.fromJson(response[1]);
+                                  Navigator.of(context).pushReplacementNamed('/home', arguments: user);
+                                }else if (response != null && !response[0]){
+                                  print(response[1]);
+                                }
+                              }
+                              setState(() {
+                                _loading = false;
+                              });
                             },
                             child: const Padding(
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),

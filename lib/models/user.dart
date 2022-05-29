@@ -1,25 +1,45 @@
-import 'package:intl/intl.dart';
-import '../core/res/app.dart';
+import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 
-class User {
-  final String name;
-  final String email;
-  final String photo;
-  final String createdAt;
-  final String updateAt;
+class User extends ChangeNotifier{
+  String name;
+  String email;
+  String? photo;
+  String? createdAt;
+  String? updateAt;
+  String token;
 
   User({
     required this.name,
     required this.email,
     required this.photo,
-    required this.createdAt,
     required this.updateAt,
+    required this.createdAt,
+    required this.token,
   });
 
-}
 
-// ignore: non_constant_identifier_names
-List<User> demo_users = [
-  User(name: "kareem", email: "kareem@kareem.com", photo: "${AppConstants.server}storage/users/1653664889-kareem.png", createdAt: DateFormat.yMMM().format(DateTime(2020, 10)), updateAt: DateFormat.yMMM().format(DateTime(2020, 10))),
-  User(name: "kareem", email: "kareem@kareem.com", photo: "${AppConstants.server}storage/users/1653664889-kareem.png", createdAt: DateFormat.yMMM().format(DateTime(2020, 10)), updateAt: DateFormat.yMMM().format(DateTime(2020, 10))),
-];
+  String toJson() {
+    return jsonEncode({
+      "name": this.name,
+      "email": this.email,
+      "photo": this.photo,
+      "updated_at": this.updateAt,
+      "created_at": this.createdAt,
+      "token": this.token,
+    });
+  }
+
+  factory User.fromJson(Map json) {
+
+    return User(
+      token: json['data']['token'],
+      name: json['data']['name'],
+      email: json['data']['email'],
+      photo: json['data']['photo'],
+      createdAt: json['data']['created_at'],
+      updateAt: json['data']['updated_at'],
+    );
+  }
+
+}

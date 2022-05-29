@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ticcket/models/user.dart';
 import 'package:ticcket/pages/main_screen/events.dart';
 import 'package:ticcket/pages/main_screen/profile.dart';
 import 'package:ticcket/pages/main_screen/home.dart';
 import 'package:ticcket/pages/main_screen/organized_events.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/core/routes/routes.dart';
+import 'package:ticcket/services/user_controller.dart';
 import 'package:ticcket/widgets/circle_gradient_icon.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -37,6 +40,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var user = ModalRoute.of(context)?.settings.arguments as User;
     return Scaffold(
       appBar: AppBar(
         title: Text(
