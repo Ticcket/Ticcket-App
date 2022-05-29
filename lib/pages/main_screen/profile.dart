@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticcket/core/res/app.dart';
 import 'package:ticcket/models/user.dart';
@@ -79,7 +80,7 @@ class ProfileScreen extends StatelessWidget {
               ListTile(
                 title: Text('Joined At:'),
                 subtitle: Text(
-                    '${snapshot.data!.createdAt}'),
+                    "${DateFormat.MMMEd().format(DateTime.parse(snapshot.data.createdAt))}"),
               ),
               const SizedBox(height: 20,),
               Center(

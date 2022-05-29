@@ -10,7 +10,6 @@ import 'package:ticcket/pages/main_screen/organized_events.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/core/routes/routes.dart';
 import 'package:ticcket/widgets/circle_gradient_icon.dart';
-import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);

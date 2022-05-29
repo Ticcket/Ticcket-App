@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ticcket/core/res/color.dart';
-import 'package:ticcket/models/user.dart';
 import 'package:ticcket/services/auth.dart';
 
 class SignUpScreen extends StatefulWidget {
