@@ -13,7 +13,7 @@ class UserController {
   
   static Future<dynamic> getUserData(String token) async {
     var data;
-    _headers.addAll({"Authorization": token});
+    _headers.addAll({"Authorization": "Bearer " + token});
     try {
 
       var response = await client.get(

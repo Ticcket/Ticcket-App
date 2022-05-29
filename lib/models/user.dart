@@ -7,7 +7,7 @@ class User extends ChangeNotifier{
   String? photo;
   String? createdAt;
   String? updateAt;
-  String token;
+  String? token;
 
   User({
     required this.name,

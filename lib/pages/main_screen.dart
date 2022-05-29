@@ -40,7 +40,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var user = ModalRoute.of(context)?.settings.arguments as User;
     return Scaffold(
       appBar: AppBar(
         title: Text(
