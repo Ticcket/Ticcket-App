@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 
 class User extends ChangeNotifier{
+  int id;
   String name;
   String email;
   String? photo;
@@ -10,17 +11,19 @@ class User extends ChangeNotifier{
   String? token;
 
   User({
+    required this.id,
     required this.name,
     required this.email,
-    required this.photo,
-    required this.updateAt,
-    required this.createdAt,
+    this.photo,
+    this.updateAt,
+    this.createdAt,
     required this.token,
   });
 
 
   String toJson() {
     return jsonEncode({
+      "id": this.id,
       "name": this.name,
       "email": this.email,
       "photo": this.photo,
@@ -33,12 +36,13 @@ class User extends ChangeNotifier{
   factory User.fromJson(Map json) {
 
     return User(
-      token: json['data']['token'],
-      name: json['data']['name'],
-      email: json['data']['email'],
-      photo: json['data']['photo'],
-      createdAt: json['data']['created_at'],
-      updateAt: json['data']['updated_at'],
+      id: json['id'],
+      token: json['token'],
+      name: json['name'],
+      email: json['email'],
+      photo: json['photo'],
+      createdAt: json['created_at'],
+      updateAt: json['updated_at'],
     );
   }
 

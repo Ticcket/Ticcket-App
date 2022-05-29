@@ -1,21 +1,35 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ticcket/core/res/app.dart';
 import 'package:ticcket/models/user.dart';
-import 'package:ticcket/services/user_controller.dart';
+import 'package:ticcket/services/auth.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key, String? title}) : super(key: key);
+  const ProfileScreen({Key? key, }) : super(key: key);
+  
+  getUser(key) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var temp = await pref.getString(key);
+    Map<String,dynamic> t = jsonDecode(temp ?? "");
+    return User.fromJson(t);
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: UserController.getUserData("35|oJg9vZJIT2LH0k3kT44Drh8AhpabMc7SbOHZYwtS"),
+      future: getUser("object"),
       builder: (context, AsyncSnapshot<dynamic>snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting)
+        if (snapshot.connectionState == ConnectionState.waiting){
           return Center(child: CircularProgressIndicator());
-        else if (snapshot.connectionState == ConnectionState.done)
-          return Text("DATA: ${snapshot.data.email}");
-        else if (snapshot.hasError)
+        }
+        else if (snapshot.hasError){
           return Text("ERROR: ${snapshot.error}");
-        return Column(
+        }
+        else if (snapshot.connectionState == ConnectionState.done){
+          // print(snapshot.data!.photo);
+          // return Text("${snapshot.data!.email}");
+          return Column(
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 15.0),
@@ -35,29 +49,37 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              snapshot.data!.photo == null ?
               CircleAvatar(
                 radius: 80,
                 backgroundColor: Colors.black,
                 child: CircleAvatar(
                   radius: 75,
-                  backgroundImage: NetworkImage(
-                      'http://178.62.201.95/storage/users/1653664889-kareem.png'),
+                  backgroundImage: AssetImage("assets/Ticckets.png"),
+                ),
+              ) :
+              CircleAvatar(
+                radius: 80,
+                backgroundColor: Colors.black,
+                child: CircleAvatar(
+                  radius: 75,
+                  backgroundImage: NetworkImage("http://${AppConstants.server}/${snapshot.data!.photo}"),
                 ),
               ),
-              const ListTile(
-                title: Center(child: Text('Kareem El-Giushy')),
+              ListTile(
+                title: Center(child: Text('${snapshot.data!.name}')),
                 subtitle: Center(child: Text('Computer Science, AI Student ')),
               ),
-              const ListTile(
+              ListTile(
                 title: Text('Email'),
                 subtitle: Text(
-                    'kareem@kareem.com'),
+                    '${snapshot.data!.email}'),
               ),
               const SizedBox(height: 20,),
-              const ListTile(
+              ListTile(
                 title: Text('Joined At:'),
                 subtitle: Text(
-                    'May, 2020'),
+                    '${snapshot.data!.createdAt}'),
               ),
               const SizedBox(height: 20,),
               Center(
@@ -66,8 +88,23 @@ class ProfileScreen extends StatelessWidget {
                   onPressed: () {},
                 ),
               ),
+              Center(
+                child: TextButton(
+                  child: const Text("LOGOUT"),
+                  onPressed: () async {
+                    bool c = await Auth.logout();
+                    print(c);
+                    if(c) {
+                      Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                    }
+                  },
+                ),
+              ),
             ],
           );
+        }else {
+          return Text("karee");
+        }
       }
     );
   }

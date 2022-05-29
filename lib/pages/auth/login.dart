@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/models/user.dart';
 import 'package:ticcket/services/auth.dart';
@@ -111,7 +112,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 this._formKey.currentState?.save();
                                 var response = await Auth.login(email: this._email, password: this._password);
                                 if (response != null && response[0]) {
-                                  var user = User.fromJson(response[1]);
+                                  var user = User.fromJson(response[1]['data']);
+                                  SharedPreferences pref = await SharedPreferences.getInstance();
+                                  pref.setString("object", user.toJson());
                                   Navigator.of(context).pushReplacementNamed('/home', arguments: user);
                                 }else if (response != null && !response[0]){
                                   print(response[1]);

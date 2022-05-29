@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticcket/core/res/app.dart';
 import 'package:http/http.dart' as http;
 
@@ -66,6 +67,36 @@ class Auth {
     }
 
     return data;
+  }
+
+  static Future<bool> logout() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    var t = await pref.getString("object")!;
+    String token = jsonDecode(t)['token'];
+
+    try {
+      
+      _headers.addAll({"Authorization": "Bearer $token"});
+
+      var response = await client.get(
+        headers: _headers,
+        Uri.http(AppConstants.server, "api/user/logout"),
+      );
+
+      if(response.statusCode == 200){
+        pref.clear();
+        return true;
+      }else{
+        return false;
+      }
+
+
+    }catch (e) {
+      print(e);
+      return false;
+    }
+
   }
 
 }
