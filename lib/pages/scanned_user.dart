@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticcket/core/res/app.dart';
 import 'package:ticcket/pages/scanner.dart';
 
 class ScannedUserScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class ScannedUserScreen extends StatelessWidget {
               child: CircleAvatar(
                 radius: 75,
                 backgroundImage: NetworkImage(
-                    'http://178.62.201.95/storage/users/1653664889-kareem.png'),
+                    '${AppConstants.server}storage/users/1653664889-kareem.png'),
               ),
             ),
             const ListTile(
