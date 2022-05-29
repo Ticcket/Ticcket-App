@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ticcket/models/ticket.dart';
-import 'package:ticcket/pages/ticket_view.dart';
+import 'package:ticcket/pages/views/ticket_view.dart';
 
 class TicketCard extends StatelessWidget {
   final Ticket ticket;

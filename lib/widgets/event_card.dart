@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ticcket/models/event.dart';
 import 'package:sizer/sizer.dart';
-import 'package:ticcket/pages/event_view.dart';
+import 'package:ticcket/pages/views/event_view.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
