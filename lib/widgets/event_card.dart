@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticcket/core/res/app.dart';
 import 'package:ticcket/models/event.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ticcket/pages/views/event_view.dart';
@@ -91,7 +92,7 @@ class EventCard extends StatelessWidget {
               ),
               SizedBox(
                 width: 20.w,
-                child: Image.network(event.logo),
+                child: Image.network("http://${AppConstants.server}/${event.logo!}"),
               ),
             ],
           ),

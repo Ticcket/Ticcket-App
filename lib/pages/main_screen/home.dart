@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:ticcket/models/event.dart';
 import 'package:ticcket/pages/ticket.dart';
-import 'package:ticcket/widgets/event_card.dart';
+import 'package:ticcket/services/events_controller.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/widgets/task_group.dart';
 
@@ -14,6 +13,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
+  @override
+  void initState() {
+    EventsController.getAllEvent();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                for(int i =0; i < 5;i++)
-                  EventCard(event: demo_events[i]),
+                // for(int i =0; i < 5;i++)
+                  // EventCard(event: demo_events[i]),
                 const SizedBox(
                   height: 40,
                 ),

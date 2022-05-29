@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ticcket/core/res/app.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/models/event.dart';
 import 'package:sizer/sizer.dart';
@@ -60,7 +61,7 @@ class _EventScreenState extends State<EventScreen> {
                   padding: const EdgeInsets.all(10.0),
                   child: SizedBox(
                     width: 35.w,
-                    child: Image.network(widget.event.logo)
+                    child: Image.network("http://${AppConstants.server}/${widget.event.logo!}")
                   ),
                 ),
                 Expanded(
@@ -92,7 +93,7 @@ class _EventScreenState extends State<EventScreen> {
                             ),
                             
                             Text(
-                              widget.event.startAt,
+                              widget.event.startAt!,
                               style: TextStyle(color: AppColors.primaryColor),
                             ),
                           ],
@@ -106,7 +107,7 @@ class _EventScreenState extends State<EventScreen> {
                               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13.sp),
                             ),
                             Text(
-                              widget.event.endAt,
+                              widget.event.endAt!,
                               style: TextStyle(color: AppColors.primaryColor),
                             ),
                           ],
@@ -124,7 +125,7 @@ class _EventScreenState extends State<EventScreen> {
             ),
             Divider(thickness: 1, color: AppColors.accentColor,),
             Text(
-                widget.event.description,
+                widget.event.description!,
                 style: TextStyle(fontSize: 12.sp),
               ),
             const SizedBox(height: 20,),

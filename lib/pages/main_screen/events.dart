@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ticcket/core/res/color.dart';
-import 'package:ticcket/models/event.dart';
+import 'package:ticcket/services/events_controller.dart';
 import 'package:ticcket/widgets/event_card.dart';
 
 class EventsScreen extends StatefulWidget {
@@ -46,25 +46,45 @@ class _EventsScreenState extends State<EventsScreen> {
           child: MediaQuery.removePadding(
             removeBottom: true,
             context: context,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: demo_events.length + 1,
-              itemBuilder: (context, index) {
+            child: FutureBuilder(
+              future: EventsController.getAllEvent(),
+              builder: (context, AsyncSnapshot<dynamic>snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting){
+                  return Center(child: CircularProgressIndicator());
+                }
+                else if (snapshot.hasError){
+                  return Text("ERROR: ${snapshot.error}");
+                }
+                else if (snapshot.connectionState == ConnectionState.done){
+                  if(snapshot.data[1].isEmpty)
+                    return Text("Empty");
 
-                if (index == demo_events.length)
-                  return  Padding(
-                    padding: const EdgeInsets.only(bottom: 100.0),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.arrow_downward)
-                    ),
+                  List events = snapshot.data![1];
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: events.length + 1,
+                    itemBuilder: (context, index) {
+                
+                      if (index == events.length)
+                        return  Padding(
+                          padding: const EdgeInsets.only(bottom: 100.0),
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.arrow_downward)
+                          ),
+                        );
+                
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: EventCard(event: events[index]),
+                      );
+                    }
                   );
-
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: EventCard(event: demo_events[index]),
-                );
-              }
+                }else {
+                  return Text("Error");
+                }
+              },
+              
             ),
           ),
         ),
