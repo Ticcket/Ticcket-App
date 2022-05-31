@@ -53,6 +53,7 @@ class TicketsController {
 
       List? data;
       try {
+        _headers.addAll({"Authorization": "Bearer ${user['token']}"});
 
         var response = await client.post(
           headers: _headers,
@@ -71,6 +72,8 @@ class TicketsController {
           data = [false, jsonDecode(response.body)];
         else
           data = null;
+
+        // print(response.body);
 
         return data;
       }catch (e) {
