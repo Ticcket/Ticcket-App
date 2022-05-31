@@ -86,7 +86,9 @@ class ProfileScreen extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   child: const Text("Change Data"),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/profile/change');
+                  },
                 ),
               ),
               Center(

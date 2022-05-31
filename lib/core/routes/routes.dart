@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ticcket/pages/add_event.dart';
+import 'package:ticcket/pages/change_profile.dart';
 import 'package:ticcket/pages/main_screen.dart';
 import 'package:ticcket/pages/onboarding.dart';
 import 'package:ticcket/pages/auth/login.dart';
@@ -42,6 +43,10 @@ class RouterGenerator {
       case Routes.addEvent:
         return MaterialPageRoute(
           builder: ((context) => const AddEventScreen()),
+        );
+      case Routes.changeData:
+        return MaterialPageRoute(
+          builder: ((context) => const ChangeDataScreen()),
         );
       default:
         return MaterialPageRoute(
