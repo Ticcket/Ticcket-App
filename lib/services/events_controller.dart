@@ -83,7 +83,7 @@ class EventsController {
 
   }
 
-  static Future<dynamic> getAllEvent({String endpoint="api/events"}) async {
+  static Future<dynamic> getAllEvent(int page_id) async {
     // http://178.62.201.95/api/events?page=1
     SharedPreferences pref = await SharedPreferences.getInstance();
 
@@ -92,23 +92,24 @@ class EventsController {
 
     List events = [];
     try {
-    _headers.addAll({"Authorization": "Bearer $token"});
+      _headers.addAll({"Authorization": "Bearer $token"});
 
-    var response = await client.get(
-      headers: _headers,
-      Uri.http(AppConstants.server, endpoint)
-    );
+      var response = await client.get(
+        headers: _headers,
+        Uri.http(AppConstants.server, "api/events", {
+          "page": page_id.toString(),
+        })
+      );
 
-    if (response.statusCode == 200){
+      if (response.statusCode == 200){
       var resp = jsonDecode(response.body);
-      for(var t in resp["data"])
-        events.add(Event.fromJson(t));
-    
-      // print(events);
-      return [resp['last_page'], events];
-    }else
-      return null;
+        for(var t in resp["data"])
+          events.add(Event.fromJson(t));
+      
+        return [resp['last_page'], events];
+      }
 
+      return events;
     }catch (e) {
       print(e);
       return null;

@@ -11,6 +11,13 @@ class EventsScreen extends StatefulWidget {
 }
 
 class _EventsScreenState extends State<EventsScreen> {
+
+  List allEvents = [];
+
+  int currentPage = 1;
+
+  int lastPage = 1;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -49,7 +56,7 @@ class _EventsScreenState extends State<EventsScreen> {
             removeBottom: true,
             context: context,
             child: FutureBuilder(
-              future: EventsController.getAllEvent(),
+              future: EventsController.getAllEvent(currentPage),
               builder: (context, AsyncSnapshot<dynamic>snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting){
                   return Center(child: CircularProgressIndicator());
@@ -60,25 +67,37 @@ class _EventsScreenState extends State<EventsScreen> {
                 else if (snapshot.connectionState == ConnectionState.done){
                   if(snapshot.data[1].isEmpty)
                     return Text("Empty");
-
                   List events = snapshot.data![1];
+                  // print(snapshot.data![1]);
+                  allEvents = [...allEvents, ...events];
+                  lastPage = snapshot.data![0];
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: events.length + 1,
+                    itemCount: allEvents.length + 1,
                     itemBuilder: (context, index) {
                 
-                      if (index == events.length)
+                      if (index == allEvents.length)
                         return  Padding(
                           padding: const EdgeInsets.only(bottom: 100.0),
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              currentPage++;
+                              var resp;
+                              if(currentPage <= lastPage) {
+                                resp = await EventsController.getAllEvent(currentPage);
+                                setState(() {
+                                  allEvents = [...allEvents, ...resp[1]];
+                                });
+                              }
+                              print(resp);
+                            },
                             icon: Icon(Icons.arrow_downward)
                           ),
                         );
                 
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: EventCard(event: events[index]),
+                        child: EventCard(event: allEvents[index]),
                       );
                     }
                   );

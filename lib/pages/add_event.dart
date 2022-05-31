@@ -297,22 +297,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 child: Text('Add Event', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white,),),
               ),
             ),
-            const SizedBox(height: 20,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Already Have An Account ? ', style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),),
-                TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text(
-                  'Login',
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-                ),
-              ),
-              ],
-            ),
             const Divider(thickness: 0, color: Colors.transparent,)
           ],
         ),

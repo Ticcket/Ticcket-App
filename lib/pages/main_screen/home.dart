@@ -17,12 +17,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   @override
-  void initState() {
-    EventsController.getAllEvent();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
