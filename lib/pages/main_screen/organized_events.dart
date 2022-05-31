@@ -34,7 +34,9 @@ class _OrganizedEventsScreenState extends State<OrganizedEventsScreen> {
                 ),
               ),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/addEvent');
+                  },
                   icon: Icon(
                     Icons.add_circle_outline,
                     color: Colors.blue[400],

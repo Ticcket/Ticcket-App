@@ -129,7 +129,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed('/addEvent');
+            },
             icon: Icon(
               Icons.add_circle_outline,
               color: Colors.blue[400],

@@ -6,6 +6,7 @@ import 'package:ticcket/models/event.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ticcket/pages/scanner.dart';
 import 'package:ticcket/services/tickets_controller.dart';
+import 'package:ticcket/widgets/loading.dart';
 
 class EventScreen extends StatefulWidget {
   final Event event;
@@ -149,18 +150,6 @@ class _EventScreenState extends State<EventScreen> {
           ],
         ),
       ),
-    );
-  }
-  
-  showLoading(context) {
-    return showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Container(height: 50, child: Center(child: CircularProgressIndicator()),),    
-        );
-      }
     );
   }
 }

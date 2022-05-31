@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticcket/pages/add_event.dart';
 import 'package:ticcket/pages/main_screen.dart';
 import 'package:ticcket/pages/onboarding.dart';
 import 'package:ticcket/pages/auth/login.dart';
@@ -10,6 +11,7 @@ class Routes {
   static const signup = "/signup";
   static const onBoarding = "/onboarding";
   static const home = "/home";
+  static const addEvent = "/addEvent";
   static const changeData = "/profile/change";
   static const todaysTask = "/task/todays";
 }
@@ -36,6 +38,10 @@ class RouterGenerator {
       case Routes.todaysTask:
         return MaterialPageRoute(
           builder: ((context) => const TodaysTaskScreen()),
+        );
+      case Routes.addEvent:
+        return MaterialPageRoute(
+          builder: ((context) => const AddEventScreen()),
         );
       default:
         return MaterialPageRoute(
