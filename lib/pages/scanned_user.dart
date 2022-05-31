@@ -18,15 +18,22 @@ class ScannedUserScreen extends StatelessWidget {
         padding: const EdgeInsets.all(70.0),
         child: Column(
           children: [
+            this.user.photo == null ?
             CircleAvatar(
               radius: 80,
               backgroundColor: Colors.black,
-
-              child: this.user.photo != null ?  CircleAvatar(
+              child: CircleAvatar(
                 radius: 75,
-                backgroundImage: NetworkImage(
-                    '${AppConstants.server}/${this.user.photo}'),
-              ) : Container(),
+                backgroundImage: AssetImage("assets/Ticckets.png"),
+              ),
+            ) :
+            CircleAvatar(
+              radius: 80,
+              backgroundColor: Colors.black,
+              child: CircleAvatar(
+                radius: 75,
+                backgroundImage: NetworkImage("http://${AppConstants.server}/${this.user.photo}"),
+              ),
             ),
             ListTile(
               title: Center(child: Text(this.user.name)),
