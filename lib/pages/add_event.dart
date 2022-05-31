@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ticcket/models/event.dart';
 import 'package:ticcket/pages/views/event_view.dart';
 import 'package:ticcket/services/events_controller.dart';
 import 'package:ticcket/widgets/loading.dart';

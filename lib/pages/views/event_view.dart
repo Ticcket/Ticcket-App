@@ -143,7 +143,7 @@ class _EventScreenState extends State<EventScreen> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => QRScanner()
+                    builder: (context) => QRScanner(event_id: widget.event.id,)
                   )
               );
             }, child: const Text("Scan Tickets")),

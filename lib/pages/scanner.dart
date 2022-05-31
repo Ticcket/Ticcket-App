@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:ticcket/pages/scanned_user.dart';
+import 'package:ticcket/services/tickets_controller.dart';
 import 'package:ticcket/widgets/camera_overlay.dart';
 
 class QRScanner extends StatefulWidget {
-  const QRScanner({Key? key}) : super(key: key);
+  
+  final int event_id;
+  
+  QRScanner({Key? key, required this.event_id}) : super(key: key);
 
   @override
   State<QRScanner> createState() => _QRScannerState();
@@ -62,16 +66,25 @@ class _QRScannerState extends State<QRScanner> {
           MobileScanner(
               controller: cameraController,
               allowDuplicates: false,
-              onDetect: (barcode, args) {
+              onDetect: (barcode, args) async {
                 final String? code = barcode.rawValue;
                 // debugPrint('Barcode found! $code');
                 setState(() {
                   text = code;
                 });
 
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => ScannedUserScreen())
-                );
+                var resp = await TicketsController.scannTicket(code!, widget.event_id);
+
+                if(resp != null) {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => ScannedUserScreen(user: resp,))
+                  );
+                }else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Something Went Wrong"),
+                    duration: Duration(milliseconds: 300),
+                  ));
+                }
 
               }),
           QRScannerOverlay(overlayColour: Colors.black.withOpacity(0.5)),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ticcket/core/res/app.dart';
-import 'package:ticcket/pages/scanner.dart';
+import 'package:ticcket/models/user.dart';
 
 class ScannedUserScreen extends StatelessWidget {
-  const ScannedUserScreen({Key? key}) : super(key: key);
+
+  final User user;
+
+  ScannedUserScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,24 +21,23 @@ class ScannedUserScreen extends StatelessWidget {
             CircleAvatar(
               radius: 80,
               backgroundColor: Colors.black,
-              child: CircleAvatar(
+
+              child: this.user.photo != null ?  CircleAvatar(
                 radius: 75,
                 backgroundImage: NetworkImage(
-                    '${AppConstants.server}storage/users/1653664889-kareem.png'),
-              ),
+                    '${AppConstants.server}/${this.user.photo}'),
+              ) : Container(),
             ),
-            const ListTile(
-              title: Center(child: Text('Kareem El-Giushy')),
-              subtitle: Center(child: Text('Kareem@gmail.com')),
+            ListTile(
+              title: Center(child: Text(this.user.name)),
+              subtitle: Center(child: Text(this.user.email)),
             ),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 30),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => QRScanner())
-                  );
+                  Navigator.of(context).pop();
                 },
                 child: Text("Approve")
               ),
