@@ -5,6 +5,7 @@ import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/models/event.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ticcket/pages/scanner.dart';
+import 'package:ticcket/services/events_controller.dart';
 import 'package:ticcket/services/tickets_controller.dart';
 import 'package:ticcket/widgets/loading.dart';
 
@@ -147,6 +148,20 @@ class _EventScreenState extends State<EventScreen> {
                   )
               );
             }, child: const Text("Scan Tickets")),
+            Center(
+              child: TextButton(
+                child: const Text("Delete"),
+                onPressed: () async {
+                  showLoading(context);
+                  bool c = await EventsController.delete(widget.event.id);
+                  Navigator.of(context).pop();
+                  print(c);
+                  if(c) {
+                    Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),

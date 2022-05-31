@@ -150,7 +150,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         autocorrect: false,
                         enableSuggestions: false,
                         autofocus: false,
-                        keyboardType: TextInputType.multiline,
+                        keyboardType: TextInputType.text,
                         maxLines: null,
                         decoration: InputDecoration.collapsed(
                           hintText: "Enter A Description",

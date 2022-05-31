@@ -15,6 +15,31 @@ class EventsController {
   };
 
 
+  static Future<bool> delete(int event_id) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    var t = await pref.getString("object")!;
+    String token = jsonDecode(t)['token'];
+
+    try {
+      _headers.addAll({"Authorization": "Bearer $token"});
+
+      
+      var response = await client.delete(
+        headers: _headers,
+        Uri.http(AppConstants.server, 'api/events/$event_id')
+      );
+
+      if(response.statusCode == 200)
+        return true;
+
+    }catch (e) {
+      print(e);
+    }
+
+    return false;
+  }
+
   static Future<dynamic> addEvent({required title, required description, required startAt, required endAt, required File logo}) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
