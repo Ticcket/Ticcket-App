@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:ticcket/pages/ticket.dart';
 import 'package:ticcket/services/events_controller.dart';
 import 'package:ticcket/core/res/color.dart';
+import 'package:ticcket/widgets/event_card.dart';
 import 'package:ticcket/widgets/task_group.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -49,8 +50,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                // for(int i =0; i < 5;i++)
-                  // EventCard(event: demo_events[i]),
+                FutureBuilder(
+                  future: EventsController.getTopEvents(),
+                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting){
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    else if (snapshot.hasError){
+                      return Text("ERROR: ${snapshot.error}");
+                    }
+                    else if (snapshot.connectionState == ConnectionState.done){
+                      List tEvents = snapshot.data;
+                      if(tEvents.isEmpty)
+                        return Text("No Top Events");
+                      return Column(
+                        children: [
+                          for(var e in tEvents)
+                            EventCard(event: e),
+                        ],
+                      );
+                    }
+                    return Text("Error");
+                  }
+                ),
                 const SizedBox(
                   height: 40,
                 ),
@@ -132,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => TicketsScreen()),
                   );
-                  debugPrint("kareem");
+                  // debugPrint("kareem");
                 },
                 child: const TaskGroupContainer(
                   color: Colors.pink,

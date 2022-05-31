@@ -18,6 +18,7 @@ class EventsController {
     var t = await pref.getString("object")!;
     String token = jsonDecode(t)['token'];
 
+    List tEvents = [];
     try {
     _headers.addAll({"Authorization": "Bearer $token"});
 
@@ -26,16 +27,18 @@ class EventsController {
       Uri.http(AppConstants.server, 'api/events/e/top')
     );
 
-    if (response.statusCode == 200)
-      print(response.body);
+    if (response.statusCode == 200){
+      var resp = jsonDecode(response.body);
+      for(Map e in resp['data'])
+        tEvents.add(Event.fromJson(e));
+    }
 
+    return tEvents;
     }catch (e) {
       print(e);
       return null;
     }
-    
-    return null;
-    
+
   }
 
   static Future<dynamic> getAllEvent({String endpoint="api/events"}) async {

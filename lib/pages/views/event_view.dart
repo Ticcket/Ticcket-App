@@ -5,6 +5,7 @@ import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/models/event.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ticcket/pages/scanner.dart';
+import 'package:ticcket/services/tickets_controller.dart';
 
 class EventScreen extends StatefulWidget {
   final Event event;
@@ -129,17 +130,37 @@ class _EventScreenState extends State<EventScreen> {
                 style: TextStyle(fontSize: 12.sp),
               ),
             const SizedBox(height: 20,),
-            ElevatedButton(onPressed: () {}, child: const Text("Book Now")),
-            ElevatedButton(onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => QRScanner()
-                )
+            ElevatedButton(
+              onPressed: () async {
+                showLoading(context);
+                var resp = await TicketsController.bookTicket(widget.event.id);
+                print(resp);
+                Navigator.of(context).pop();
+              }, child: const Text("Book Now")
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => QRScanner()
+                  )
               );
             }, child: const Text("Scan Tickets")),
           ],
         ),
       ),
+    );
+  }
+  
+  showLoading(context) {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Container(height: 50, child: Center(child: CircularProgressIndicator()),),    
+        );
+      }
     );
   }
 }

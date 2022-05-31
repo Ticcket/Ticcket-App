@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ticcket/models/ticket.dart';
+import 'package:ticcket/services/tickets_controller.dart';
 import 'package:ticcket/widgets/ticket_card.dart';
 
 class TicketsScreen extends StatelessWidget {
@@ -17,24 +17,31 @@ class TicketsScreen extends StatelessWidget {
             child: MediaQuery.removePadding(
               removeBottom: true,
               context: context,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: demo_tickets.length + 1,
-                itemBuilder: (context, index) {
-    
-                  if (index == demo_tickets.length)
-                    return  Padding(
-                      padding: const EdgeInsets.only(bottom: 100.0),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_downward)
-                      ),
+              child: FutureBuilder(
+                future: TicketsController.getUserTickets(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting){
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  else if (snapshot.hasError){
+                    return Text("ERROR: ${snapshot.error}");
+                  }
+                  else if (snapshot.connectionState == ConnectionState.done){
+                    List tickets = snapshot.data;
+                    // return Text("h");
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: tickets.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TicketCard(ticket: tickets[index]),
+                        );
+                      }
                     );
-    
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TicketCard(ticket: demo_tickets[index]),
-                  );
+                  } else {
+                    return Text("Error");
+                  }
                 }
               ),
             ),
