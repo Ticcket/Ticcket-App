@@ -1,11 +1,24 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/core/routes/routes.dart';
 
 bool logedIn = false;
+String? token;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  var t = await pref.getString("object");
+  // print(t);
+  if(t != null) {
+    token = jsonDecode(t)['token'];
+    logedIn = (token == null) ? false : true;
+  }
+
   runApp(const MyApp());
 }
 
