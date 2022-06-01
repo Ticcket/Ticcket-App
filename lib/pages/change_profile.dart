@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticcket/core/res/app.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/models/user.dart';
+import 'package:ticcket/services/user_controller.dart';
 import 'package:ticcket/widgets/loading.dart';
 
 class ChangeDataScreen extends StatefulWidget {
@@ -17,6 +18,7 @@ class ChangeDataScreen extends StatefulWidget {
 
 class _ChangeDataScreenState extends State<ChangeDataScreen> {
   
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _name = "";
   String _email = "";
   String _newpassword = "";
@@ -123,12 +125,13 @@ class _ChangeDataScreenState extends State<ChangeDataScreen> {
                     ),
                   ),
                 ),
-                snapshot.data!.photo == null ?
+                this._photo != null ?
                 CircleAvatar(
                   radius: 80,
                   backgroundColor: Colors.black,
                   child: CircleAvatar(
                     radius: 75,
+                    backgroundImage: FileImage(this._photo!),
                   ),
                 ) :
                 CircleAvatar(
@@ -140,102 +143,101 @@ class _ChangeDataScreenState extends State<ChangeDataScreen> {
                   ),
                 ),
                 const SizedBox(height: 25,),
-                Container(
-                  height: 50,
-                  margin: const EdgeInsets.only(bottom: 15),
-                  decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
-                    child: TextFormField(
-                      validator: (v) {
-                        if(v!.isEmpty)
-                          return "This Field Can't Be Empty";
-                        return null;
-                      },
-                      onSaved: (v) {this._name = v.toString();},
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      autofocus: false,
-                      decoration: InputDecoration.collapsed(
-                        hintText: "John Doe",
-                        hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                Form(
+                  key: this._formKey,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 50,
+                        margin: const EdgeInsets.only(bottom: 15),
+                        decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
+                          child: TextFormField(
+                            initialValue: snapshot.data.name,
+                            validator: (v) {
+                              if(v!.isEmpty)
+                                return "This Field Can't Be Empty";
+                              return null;
+                            },
+                            onSaved: (v) {this._name = v.toString();},
+                            autocorrect: false,
+                            enableSuggestions: false,
+                            autofocus: false,
+                            decoration: InputDecoration.collapsed(
+                              hintText: "John Doe",
+                              hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                            ),
+                            keyboardType: TextInputType.text,
+                          ),
+                        ),
                       ),
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 50,
-                  margin: const EdgeInsets.only(bottom: 15),
-                  decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
-                    child: TextFormField(
-                      validator: (v) {
-                        if(v!.isEmpty)
-                          return "This Field Can't Be Empty";
-                        return null;
-                      },
-                      onSaved: (v) {this._email = v.toString();},
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      autofocus: false,
-                      decoration: InputDecoration.collapsed(
-                        hintText: "kareem@example.com",
-                        hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                      Container(
+                        height: 50,
+                        margin: const EdgeInsets.only(bottom: 15),
+                        decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
+                          child: TextFormField(
+                            initialValue: snapshot.data.email,
+                            validator: (v) {
+                              if(v!.isEmpty)
+                                return "This Field Can't Be Empty";
+                              return null;
+                            },
+                            onSaved: (v) {this._email = v.toString();},
+                            autocorrect: false,
+                            enableSuggestions: false,
+                            autofocus: false,
+                            decoration: InputDecoration.collapsed(
+                              hintText: "kareem@example.com",
+                              hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                        ),
                       ),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 50,
-                  margin: const EdgeInsets.only(bottom: 15),
-                  decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
-                    child: TextFormField(
-                      validator: (v) {
-                        if(v!.isEmpty)
-                          return "This Field Can't Be Empty";
-                        return null;
-                      },
-                      onSaved: (v) {this._oldpassword = v.toString();},
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      autofocus: false,
-                      obscureText: true,
-                      decoration: InputDecoration.collapsed(
-                        hintText: "Old Password",
-                        hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                      Container(
+                        height: 50,
+                        margin: const EdgeInsets.only(bottom: 15),
+                        decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
+                          child: TextFormField(
+                            onSaved: (v) {this._oldpassword = v.toString();},
+                            autocorrect: false,
+                            enableSuggestions: false,
+                            autofocus: false,
+                            obscureText: true,
+                            decoration: InputDecoration.collapsed(
+                              hintText: "Old Password",
+                              hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                            ),
+                            keyboardType: TextInputType.text
+                          ),
+                        ),
                       ),
-                      keyboardType: TextInputType.text
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 50,
-                  margin: const EdgeInsets.only(bottom: 15),
-                  decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
-                    child: TextFormField(
-                      validator: (v) {
-                        if(v!.isEmpty)
-                          return "This Field Can't Be Empty";
-                        return null;
-                      },
-                      onSaved: (v) {this._newpassword = v.toString();},
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      autofocus: false,
-                      obscureText: true,
-                      decoration: InputDecoration.collapsed(
-                        hintText: "New Password",
-                        hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                      Container(
+                        height: 50,
+                        margin: const EdgeInsets.only(bottom: 15),
+                        decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
+                          child: TextFormField(
+                            onSaved: (v) {this._newpassword = v.toString();},
+                            autocorrect: false,
+                            enableSuggestions: false,
+                            autofocus: false,
+                            obscureText: true,
+                            decoration: InputDecoration.collapsed(
+                              hintText: "New Password",
+                              hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                            ),
+                            keyboardType: TextInputType.text,
+                          ),
+                        ),
                       ),
-                      keyboardType: TextInputType.text,
-                    ),
+                    ],
                   ),
                 ),
                 Container(
@@ -246,12 +248,6 @@ class _ChangeDataScreenState extends State<ChangeDataScreen> {
                     icon: Icon(Icons.image),
                   ),
                 ),
-                this._photo != null?
-                const SizedBox(height: 20,) : SizedBox(),
-                this._photo != null ?
-                Container(
-                  child:  Image.file(this._photo!,height: MediaQuery.of(context).size.width * 0.5,),
-                ) : Container(),
                 const SizedBox(height: 10,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -265,7 +261,32 @@ class _ChangeDataScreenState extends State<ChangeDataScreen> {
                       ),
                     ),
                     onPressed: () async {
-                      // showLoading(context);
+                      showLoading(context);
+                      if(this._formKey.currentState!.validate()) {
+                        this._formKey.currentState?.save();
+                        bool edit = await UserController.editUserData(
+                          name: this._name,
+                          email: this._email,
+                          oldPassword: this._oldpassword,
+                          newPassword: this._newpassword
+                        );
+                        
+                        if (this._photo != null)
+                          await UserController.updatePhoto(this._photo!);
+                        
+                        if(edit) {
+                          Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+                          return ;
+                        }else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Something Went Wrong"),
+                            duration: Duration(milliseconds: 300),
+                          ));
+                        }
+                      }
+                      if (Navigator.of(context).canPop()) {
+                        Navigator.of(context).pop();
+                      }
                     },
                     child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
