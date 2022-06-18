@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ticcket/core/res/app.dart';
 import 'package:ticcket/models/user.dart';
 
 class ScannedUserScreen extends StatelessWidget {

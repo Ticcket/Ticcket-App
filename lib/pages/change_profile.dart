@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ticcket/core/res/app.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/models/user.dart';
 import 'package:ticcket/services/user_controller.dart';

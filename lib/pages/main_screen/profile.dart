@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ticcket/core/res/app.dart';
 import 'package:ticcket/models/user.dart';
 import 'package:ticcket/services/auth.dart';
 

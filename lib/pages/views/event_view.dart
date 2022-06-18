@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ticcket/core/res/app.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/models/event.dart';
 import 'package:sizer/sizer.dart';
