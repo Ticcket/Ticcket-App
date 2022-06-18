@@ -32,7 +32,7 @@ class ScannedUserScreen extends StatelessWidget {
               backgroundColor: Colors.black,
               child: CircleAvatar(
                 radius: 75,
-                backgroundImage: NetworkImage("http://${AppConstants.server}/${this.user.photo}"),
+                backgroundImage: NetworkImage("${this.user.photo}"),
               ),
             ),
             ListTile(

@@ -71,7 +71,7 @@ class TicketCard extends StatelessWidget {
               ),
               SizedBox(
                 width: 20.w,
-                child: Image.network("http://${AppConstants.server}/${ticket.eventLogo}"),
+                child: Image.network("${ticket.eventLogo}"),
               ),
             ],
           ),

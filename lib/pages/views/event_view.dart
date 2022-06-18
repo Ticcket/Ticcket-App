@@ -64,7 +64,7 @@ class _EventScreenState extends State<EventScreen> {
                   padding: const EdgeInsets.all(10.0),
                   child: SizedBox(
                     width: 35.w,
-                    child: Image.network("http://${AppConstants.server}/${widget.event.logo!}")
+                    child: Image.network("${widget.event.logo!}")
                   ),
                 ),
                 Expanded(

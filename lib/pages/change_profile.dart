@@ -139,7 +139,7 @@ class _ChangeDataScreenState extends State<ChangeDataScreen> {
                   backgroundColor: Colors.black,
                   child: CircleAvatar(
                     radius: 75,
-                    backgroundImage: NetworkImage("http://${AppConstants.server}/${snapshot.data!.photo}"),
+                    backgroundImage: NetworkImage("${snapshot.data!.photo}"),
                   ),
                 ),
                 const SizedBox(height: 25,),

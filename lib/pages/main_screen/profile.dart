@@ -64,7 +64,7 @@ class ProfileScreen extends StatelessWidget {
                 backgroundColor: Colors.black,
                 child: CircleAvatar(
                   radius: 75,
-                  backgroundImage: NetworkImage("http://${AppConstants.server}/${snapshot.data!.photo}"),
+                  backgroundImage: NetworkImage("${snapshot.data!.photo}"),
                 ),
               ),
               ListTile(

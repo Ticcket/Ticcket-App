@@ -92,7 +92,7 @@ class EventCard extends StatelessWidget {
               ),
               SizedBox(
                 width: 20.w,
-                child: Image.network("http://${AppConstants.server}/${event.logo!}"),
+                child: Image.network("${event.logo!}"),
               ),
             ],
           ),
