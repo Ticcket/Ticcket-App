@@ -1,24 +1,15 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ticcket/models/user.dart';
 import 'package:ticcket/services/auth.dart';
+import 'package:ticcket/services/global.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key, }) : super(key: key);
-  
-  getUser(key) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    var temp = await pref.getString(key);
-    Map<String,dynamic> t = jsonDecode(temp ?? "");
-    return User.fromJson(t);
-  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getUser("object"),
+      future: Global.getUser(),
       builder: (context, AsyncSnapshot<dynamic>snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting){
           return Center(child: CircularProgressIndicator());

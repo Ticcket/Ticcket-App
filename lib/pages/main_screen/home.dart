@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:ticcket/models/event.dart';
 import 'package:ticcket/pages/ticket.dart';
 import 'package:ticcket/services/events_controller.dart';
 import 'package:ticcket/core/res/color.dart';
+import 'package:ticcket/services/tickets_controller.dart';
 import 'package:ticcket/widgets/event_card.dart';
 import 'package:ticcket/widgets/task_group.dart';
 
@@ -15,6 +17,40 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+  int tickets = 0;
+  int organized = 0;
+  int owned = 0;
+
+  @override
+  initState() {
+    super.initState();
+
+    getTicketsCount();
+    getOrganizedCount();
+    getOwnedCount();
+  }
+
+  getTicketsCount() async {
+    var ts = await TicketsController.getUserTickets();
+    setState(() {
+      tickets = ts.length;
+    });
+  }
+
+  getOrganizedCount() async{
+    var orgs = await EventsController.getOrganizing();
+    setState(() {
+      organized = orgs.length;
+    });
+
+  }
+  getOwnedCount() async{
+    var ows = await EventsController.getOrganizing();
+    setState(() {
+      owned = ows.length;
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,10 +188,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                   // debugPrint("kareem");
                 },
-                child: const TaskGroupContainer(
+                child: TaskGroupContainer(
                   color: Colors.pink,
                   icon: Icons.menu_book_rounded,
-                  taskCount: "10 Tickets",
+                  taskCount: "${tickets} Tickets",
                   taskGroup: "My Tickets",
                 ),
               );
@@ -167,11 +203,11 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisCellCount: 1,
           child: InkWell(
             onTap: () => {},
-            child: const TaskGroupContainer(
+            child: TaskGroupContainer(
               color: Colors.orange,
               isSmall: true,
               icon: Icons.mobile_friendly,
-              taskCount: "0 Events",
+              taskCount: "$organized Events",
               taskGroup: "Organized Events",
             ),
           ),
@@ -181,10 +217,10 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisCellCount: 1.3,
           child: InkWell(
             onTap: () => {},
-            child: const TaskGroupContainer(
+            child: TaskGroupContainer(
               color: Colors.green,
               icon: Icons.article,
-              taskCount: "0",
+              taskCount: "$owned",
               taskGroup: "Owned Events",
             ),
           ),

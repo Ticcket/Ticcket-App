@@ -14,7 +14,7 @@ class Auth {
       try {
         var response = await client.post(
           headers: _headers,
-          Uri.http(AppConstants.server, "api\/login"),
+          Uri.http(AppConstants.server, "api\/login",),
           body: {
             'email': email,
             'password': password,
