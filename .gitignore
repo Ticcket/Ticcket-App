@@ -47,4 +47,4 @@ app.*.map.json
 /android/app/release
 
 lib/core/res/app.dart
-lib/core/helper/local_storage_data.ddart
+lib/pages/views/__event_details.dart

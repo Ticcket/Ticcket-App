@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
   static bool isDarkMode = false;
@@ -34,17 +35,17 @@ class AppColors {
         colorScheme: const ColorScheme.light(),
         backgroundColor: bgColor,
         textTheme: TextTheme(
-          displayMedium: TextStyle(
+          displayMedium: GoogleFonts.poppins(
             color: Colors.blueGrey[800],
             fontWeight: FontWeight.w800,
             fontSize: 28,
           ),
-          displaySmall: TextStyle(
+          displaySmall: GoogleFonts.poppins(
             color: Colors.blueGrey[800],
             fontWeight: FontWeight.w600,
             fontSize: 20,
           ),
-          labelMedium: TextStyle(
+          labelMedium: GoogleFonts.poppins(
             color: Colors.grey[600],
             fontWeight: FontWeight.w600,
           ),

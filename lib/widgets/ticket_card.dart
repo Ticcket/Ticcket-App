@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ticcket/models/ticket.dart';
-import 'package:ticcket/pages/views/ticket_view.dart';
+import 'package:ticcket/pages/views/ticket_details.dart';
 
 class TicketCard extends StatelessWidget {
   final Ticket ticket;
@@ -70,7 +70,22 @@ class TicketCard extends StatelessWidget {
               ),
               SizedBox(
                 width: 20.w,
-                child: Image.network("${ticket.eventLogo}"),
+                child: Image.network(
+                  "${ticket.eventLogo}",
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),

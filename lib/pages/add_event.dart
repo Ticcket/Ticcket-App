@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ticcket/pages/views/event_view.dart';
+import 'package:ticcket/pages/views/event_details.dart';
 import 'package:ticcket/services/events_controller.dart';
 import 'package:ticcket/widgets/loading.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -280,10 +280,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         duration: Duration(milliseconds: 300),
                       ));
                     }else {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder:  (context) => EventScreen(event: response))
-                      );
+                      Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder:  (context) => EventDetails(event: response))
+                      // );
                       return ;
                     }
                   }

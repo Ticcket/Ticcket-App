@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticcket/models/event.dart';
 import 'package:sizer/sizer.dart';
-import 'package:ticcket/pages/views/event_view.dart';
+import 'package:ticcket/pages/views/event_details.dart';
+import 'package:ticcket/services/global.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -13,11 +14,15 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => {
+      onTap: () async {
+        var user = await Global.getUser();
+        var organizers =  await Global.getOrganizers(event.id);
+        var isBooked = await Global.isBooked(event.id);
+  
         Navigator.push(
           context,
-          MaterialPageRoute(builder:  (context) => EventScreen(event: event))
-        )
+          MaterialPageRoute(builder:  (context) => EventDetails(event: event, user: user, organizers: organizers, isBooked: isBooked,))
+        );
       },
         child: Ink(
           padding: const EdgeInsets.all(
@@ -91,7 +96,22 @@ class EventCard extends StatelessWidget {
               ),
               SizedBox(
                 width: 20.w,
-                child: Image.network("${event.logo!}"),
+                child: Image.network(
+                  "${event.logo!}",
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),

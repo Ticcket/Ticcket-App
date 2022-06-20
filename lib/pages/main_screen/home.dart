@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     else if (snapshot.connectionState == ConnectionState.done){
                       List tEvents = snapshot.data;
                       if(tEvents.isEmpty)
-                        return Text("No Top Events");
+                        return Center(child: Text("No Top Events"));
                       return Column(
                         children: [
                           for(var e in tEvents)
