@@ -8,6 +8,7 @@ class Event {
   final String? startAt;
   final String? endAt;
   final int creator;
+  final double? rating;
 
   const Event({
     required this.id,
@@ -17,6 +18,7 @@ class Event {
     required this.startAt,
     required this.endAt,
     required this.creator,
+    required this.rating
   });
 
   String toJson() {
@@ -27,7 +29,8 @@ class Event {
       "logo": this.logo,
       "start_at": this.startAt,
       "end_at": this.endAt,
-      "creator": this.creator
+      "creator": this.creator,
+      "rating": this.rating
     });
   }
 
@@ -39,7 +42,8 @@ class Event {
       logo: json['logo'],
       startAt: json['start_at'],
       endAt: json['end_at'],
-      creator: json['creator']
+      creator: json['creator'],
+      rating: json['rating']
     );
   }
 

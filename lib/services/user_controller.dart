@@ -105,7 +105,7 @@ class UserController {
       );
       
       if(response.statusCode == 200){
-        data = jsonDecode(response.body);
+        data = jsonDecode(response.body)['data'];
         return User.fromJson(data);
       }else {
 
