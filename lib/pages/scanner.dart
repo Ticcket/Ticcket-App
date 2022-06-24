@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:ticcket/models/user.dart';
 import 'package:ticcket/pages/scanned_user.dart';
 import 'package:ticcket/services/tickets_controller.dart';
 import 'package:ticcket/widgets/camera_overlay.dart';
@@ -74,15 +75,19 @@ class _QRScannerState extends State<QRScanner> {
                 });
 
                 var resp = await TicketsController.scannTicket(code!, widget.event_id);
-
-                if(resp != null) {
+                print(resp);
+                if(resp.runtimeType == User) {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => ScannedUserScreen(user: resp,))
+                  );
+                }else if (resp.runtimeType == String){
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => ScannedUserScreen(user: null,))
                   );
                 }else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text("Something Went Wrong"),
-                    duration: Duration(milliseconds: 300),
+                    duration: Duration(milliseconds: 600),
                   ));
                 }
 

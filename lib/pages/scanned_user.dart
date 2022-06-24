@@ -3,7 +3,7 @@ import 'package:ticcket/models/user.dart';
 
 class ScannedUserScreen extends StatelessWidget {
 
-  final User user;
+  final User? user;
 
   ScannedUserScreen({Key? key, required this.user}) : super(key: key);
 
@@ -17,7 +17,7 @@ class ScannedUserScreen extends StatelessWidget {
         padding: const EdgeInsets.all(70.0),
         child: Column(
           children: [
-            this.user.photo == null ?
+            this.user?.photo == null ?
             CircleAvatar(
               radius: 80,
               backgroundColor: Colors.black,
@@ -31,12 +31,12 @@ class ScannedUserScreen extends StatelessWidget {
               backgroundColor: Colors.black,
               child: CircleAvatar(
                 radius: 75,
-                backgroundImage: NetworkImage("${this.user.photo}"),
+                backgroundImage: NetworkImage(this.user != null ? "${this.user?.photo}" : ""),
               ),
             ),
             ListTile(
-              title: Center(child: Text(this.user.name)),
-              subtitle: Center(child: Text(this.user.email)),
+              title: Center(child: Text(this.user != null ? "${this.user?.name}" : "Annonymous User")),
+              subtitle: Center(child: Text(this.user != null ? "${this.user?.email}" : "")),
             ),
             Container(
               width: double.infinity,
