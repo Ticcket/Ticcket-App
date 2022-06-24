@@ -1,10 +1,12 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/models/user.dart';
+import 'package:ticcket/services/global.dart';
 import 'package:ticcket/services/user_controller.dart';
 import 'package:ticcket/widgets/loading.dart';
 
@@ -92,6 +94,34 @@ class _ChangeDataScreenState extends State<ChangeDataScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          title: Text(
+            "Edit Profile Data",
+            style: GoogleFonts.poppins(),
+          ),
+          leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Container(
+            width: 50,
+            height: 50,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: const Icon(
+                Icons.arrow_back,
+              ),
+            ),
+          ),
+        ),
+      ),
       body: FutureBuilder(
         future: getUser("object"),
         builder: (context, AsyncSnapshot<dynamic>snapshot) {
@@ -274,6 +304,11 @@ class _ChangeDataScreenState extends State<ChangeDataScreen> {
                           await UserController.updatePhoto(this._photo!);
                         
                         if(edit) {
+                          User user = await Global.getUser();
+                          User? response = await UserController.getUserData(user.token!);
+                          if (response != null)
+                            await Global.setUser(response);
+                          
                           Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
                           return ;
                         }else {

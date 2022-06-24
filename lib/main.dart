@@ -5,10 +5,11 @@ import 'package:sizer/sizer.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/core/routes/routes.dart';
 import 'package:ticcket/models/user.dart';
+import 'package:ticcket/services/global.dart';
 import 'services/user_controller.dart';
 
 bool logedIn = false;
-String token = "";
+String? token = "";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +18,12 @@ void main() async {
   // print(t);
   if(t != null) {
     token = jsonDecode(t)['token'];
-    User? u = await UserController.getUserData(token);
+    User? u = await UserController.getUserData(token ?? "");
     // print(u);
-    logedIn = (u == null) ? false : true;
+    if (u != null) {
+      await Global.setUser(u);
+      logedIn = true;
+    }
   }
 
   runApp(const MyApp());

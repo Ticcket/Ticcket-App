@@ -74,4 +74,11 @@ class Global {
     Map<String,dynamic> t = jsonDecode(temp ?? "");
     return User.fromJson(t);
   }
+  static Future setUser(User user) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    User u = await getUser();
+    user.token = u.token;
+    // print(user.toJson());
+    pref.setString("object", user.toJson());
+  }
 }
