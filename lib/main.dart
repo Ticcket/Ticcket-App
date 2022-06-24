@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/core/routes/routes.dart';
+import 'services/user_controller.dart';
 
 bool logedIn = false;
 String? token;
@@ -15,7 +16,8 @@ void main() async {
   // print(t);
   if(t != null) {
     token = jsonDecode(t)['token'];
-    logedIn = (token == null) ? false : true;
+    var u = await UserController.getUserData(token ?? "");
+    logedIn = (u == null) ? false : true;
   }
 
   runApp(const MyApp());
