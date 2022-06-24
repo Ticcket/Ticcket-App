@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ticcket/core/res/color.dart';
+import 'package:ticcket/models/announcement.dart';
 import 'package:ticcket/models/event.dart';
 import 'package:ticcket/models/user.dart';
+import 'package:ticcket/pages/add_announcement.dart';
 import 'package:ticcket/pages/scanner.dart';
+import 'package:ticcket/services/Announcements_controller.dart';
 import 'package:ticcket/services/tickets_controller.dart';
 import 'package:ticcket/services/events_controller.dart';
 import 'package:ticcket/widgets/loading.dart';
@@ -102,10 +105,12 @@ class EventDetails extends StatelessWidget {
           ) : Container(),
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            leading: Container(),
+            expandedHeight: MediaQuery.of(context).size.height * 0.305,
+            flexibleSpace: Container(
               height: MediaQuery.of(context).size.height * .35,
               padding: const EdgeInsets.symmetric(vertical: 20),
               width: double.infinity,
@@ -126,19 +131,21 @@ class EventDetails extends StatelessWidget {
                 },
               ),
             ),
-            Expanded(
-              child: Stack(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(top: 40, right: 14, left: 14),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Expanded(
+                child: Stack(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(top: 40, right: 14, left: 14),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
                       ),
-                    ),
-                    child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -197,7 +204,7 @@ class EventDetails extends StatelessWidget {
                                   ],
                                 ),
                               ),
-
+                      
                               Expanded(
                                 child: Row(
                                   children: [
@@ -227,57 +234,34 @@ class EventDetails extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          SizedBox(
-                            child: Container(
-                            margin: const EdgeInsets.only(right: 6),
-                            width: 110,
-                            height: 110,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Center(
-                              child: Image.network(
-                                "${event.logo}",
-                                height: 70,
-                                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                  if (loadingProgress == null) {
-                                    return child;
+                          Divider(thickness: 1, color: Colors.grey,),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FutureBuilder(
+                              future: AnnouncementsController.getAllAnnouncements(event.id),
+                              builder: (context, AsyncSnapshot snapshot) {
+                                if(snapshot.connectionState == ConnectionState.done){ 
+                                  List<Widget> anns = [];
+                                  print(snapshot.data);
+                                  for(var d in snapshot.data){
+                                    anns.add(_announcement(context, d));
                                   }
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      value: loadingProgress.expectedTotalBytes != null
-                                          ? loadingProgress.cumulativeBytesLoaded /
-                                              loadingProgress.expectedTotalBytes!
-                                          : null,
-                                    ),
-                                  );
-                                },
-                              ),
+                                  return Column(children: anns,);
+                                }
+                                return Center(child: CircularProgressIndicator());
+                              },
                             ),
-                          ),
                           ),
                           const SizedBox(height: 20),
                         ],
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 10),
-                      width: 50,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        // color: AppColors.kGreyColor,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),        
+            ]),
+          ),
+        ],
       ),
       bottomNavigationBar: Container(
         height: 70,
@@ -296,7 +280,11 @@ class EventDetails extends StatelessWidget {
               child: organizers.contains(user.id) ?
               IconButton(
                 onPressed: () {
-                  
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AddAnnouncementScreen(event_id: event.id)
+                    )
+                  );
                 },
                 icon: Icon(
                   Icons.assistant_rounded,
@@ -366,6 +354,66 @@ class EventDetails extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+  _announcement(context, Announcement ann) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            ann.announcement,
+            style: TextStyle(
+              color: Colors.blueGrey[700],
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Icon(
+                Icons.timelapse,
+                color: Colors.blue[300],
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                DateFormat.MMMd().format(ann.createdAt),
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 4,
+              horizontal: 8,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.blue[50],
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Text(
+              "${ann.orgName}",
+              style: TextStyle(
+                color: Colors.blue,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

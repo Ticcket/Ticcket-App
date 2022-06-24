@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ticcket/pages/views/event_details.dart';
 import 'package:ticcket/services/events_controller.dart';
 import 'package:ticcket/widgets/loading.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -85,150 +84,153 @@ class _AddEventScreenState extends State<AddEventScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add A New Note'),),
+      appBar: AppBar(title: Text('Add A New Event'),),
       body: Center(
         child: ListView(
           shrinkWrap: true,
           children: [
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child:  Text("Title:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
-                    ),
-                  ),
-                  Container(
-                    height: 50,
-                    margin: const EdgeInsets.only(bottom: 15),
-                    decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
-                      child: TextFormField(
-                        validator: (v) {
-                          if(v!.isEmpty)
-                            return "This Field Can't Be Empty";
-                          return null;
-                        },
-                        onSaved: (v) {this._title = v.toString();},
-                        autocorrect: false,
-                        enableSuggestions: false,
-                        autofocus: false,
-                        decoration: InputDecoration.collapsed(
-                          hintText: "Type An Event Title",
-                          hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
-                        ),
-                        keyboardType: TextInputType.text,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child:  Text("Title:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
                       ),
                     ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child:  Text("Description:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
-                    ),
-                  ),
-                  Container(
-                    height: 50,
-                    margin: const EdgeInsets.only(bottom: 15),
-                    decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
-                      child: TextFormField(
-                        validator: (v) {
-                          if(v!.isEmpty)
-                            return "This Field Can't Be Empty";
-                          else if(v.length < 10 && v.length > 255)
-                            return "This Field Must Be Between 10 - 255";
-                          return null;
-                        },
-                        onSaved: (v) {this._description = v.toString();},
-                        autocorrect: false,
-                        enableSuggestions: false,
-                        autofocus: false,
-                        keyboardType: TextInputType.text,
-                        maxLines: null,
-                        decoration: InputDecoration.collapsed(
-                          hintText: "Enter A Description",
-                          hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                    Container(
+                      height: 50,
+                      margin: const EdgeInsets.only(bottom: 15),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
+                        child: TextFormField(
+                          validator: (v) {
+                            if(v!.isEmpty)
+                              return "This Field Can't Be Empty";
+                            return null;
+                          },
+                          onSaved: (v) {this._title = v.toString();},
+                          autocorrect: false,
+                          enableSuggestions: false,
+                          autofocus: false,
+                          decoration: InputDecoration.collapsed(
+                            hintText: "Type An Event Title",
+                            hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                          ),
+                          keyboardType: TextInputType.text,
                         ),
                       ),
                     ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child:  Text("Start At:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child:  Text("Description:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
-                    child: TextButton(
-                      onPressed: () {
-                        DatePicker.showDatePicker(
-                          context,
-                          showTitleActions: true,
-                          currentTime: DateTime.now(),
-                          minTime: DateTime.now(),
-                          locale: LocaleType.en,
-                          onChanged: (date) {
-                            print('change $date');
+                    Container(
+                      height: 100,
+                      margin: const EdgeInsets.only(bottom: 15),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
+                        child: TextFormField(
+                          validator: (v) {
+                            if(v!.isEmpty)
+                              return "This Field Can't Be Empty";
+                            else if(v.length < 10 && v.length > 255)
+                              return "This Field Must Be Between 10 - 255";
+                            return null;
                           },
-                          onConfirm: (date) {
-                            setState(() {
-                              this._startAt = DateFormat("yyyy-MM-dd").format(date);
-                            });
-                          }, 
-                        );
-                      },
-                      child: Text(
-                          this._startAt.isEmpty ? "Pick A Start Date": this._startAt,
-                          // style: TextStyle(color: Colors.blue),
-                      )
+                          onSaved: (v) {this._description = v.toString();},
+                          autocorrect: false,
+                          enableSuggestions: false,
+                          autofocus: false,
+                          keyboardType: TextInputType.text,
+                          maxLines: null,
+                          decoration: InputDecoration.collapsed(
+                            hintText: "Enter A Description",
+                            hintStyle: const TextStyle(fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child:  Text("End At:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child:  Text("Start At:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
-                    child: TextButton(
-                      onPressed: () {
-                        DatePicker.showDatePicker(
-                          context,
-                          showTitleActions: true,
-                          currentTime: DateTime.now(),
-                          minTime: DateTime.now(),
-                          locale: LocaleType.en,
-                          onChanged: (date) {
-                            print('change $date');
-                          },
-                          onConfirm: (date) {
-                            setState(() {
-                              this._endAt = DateFormat("yyyy-MM-dd").format(date);
-                            });
-                          }, 
-                        );
-                      },
-                      child: Text(
-                          this._endAt.isEmpty ? "Pick An End Date": this._endAt,
-                          // style: TextStyle(color: Colors.blue),
-                      )
+                    Container(
+                      height: 50,
+                      decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
+                      child: TextButton(
+                        onPressed: () {
+                          DatePicker.showDatePicker(
+                            context,
+                            showTitleActions: true,
+                            currentTime: DateTime.now(),
+                            minTime: DateTime.now(),
+                            locale: LocaleType.en,
+                            onChanged: (date) {
+                              print('change $date');
+                            },
+                            onConfirm: (date) {
+                              setState(() {
+                                this._startAt = DateFormat("yyyy-MM-dd").format(date);
+                              });
+                            }, 
+                          );
+                        },
+                        child: Text(
+                            this._startAt.isEmpty ? "Pick A Start Date": this._startAt,
+                            // style: TextStyle(color: Colors.blue),
+                        )
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20,)
-                ],
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child:  Text("End At:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),),
+                      ),
+                    ),
+                    Container(
+                      height: 50,
+                      decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(30)),
+                      child: TextButton(
+                        onPressed: () {
+                          DatePicker.showDatePicker(
+                            context,
+                            showTitleActions: true,
+                            currentTime: DateTime.now(),
+                            minTime: DateTime.now(),
+                            locale: LocaleType.en,
+                            onChanged: (date) {
+                              print('change $date');
+                            },
+                            onConfirm: (date) {
+                              setState(() {
+                                this._endAt = DateFormat("yyyy-MM-dd").format(date);
+                              });
+                            }, 
+                          );
+                        },
+                        child: Text(
+                            this._endAt.isEmpty ? "Pick An End Date": this._endAt,
+                            // style: TextStyle(color: Colors.blue),
+                        )
+                      ),
+                    ),
+                    SizedBox(height: 20,)
+                  ],
+                ),
               ),
             ),
             Container(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:ticcket/models/event.dart';
 import 'package:ticcket/pages/ticket.dart';
 import 'package:ticcket/services/events_controller.dart';
 import 'package:ticcket/core/res/color.dart';
