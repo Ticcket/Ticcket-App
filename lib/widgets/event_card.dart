@@ -84,10 +84,22 @@ class EventCard extends StatelessWidget {
                         color: Colors.blue[50],
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: const Text(
-                        "Complete - 80%",
-                        style: TextStyle(
-                          color: Colors.blue,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.30,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: Colors.yellow,
+                            ),
+                            const SizedBox(width: 5,),
+                            Text(
+                              event.rating == null ? "Not Rated Yet" : "${event.rating}",
+                              style: TextStyle(
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     )
