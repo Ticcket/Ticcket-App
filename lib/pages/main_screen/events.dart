@@ -57,7 +57,7 @@ class _EventsScreenState extends State<EventsScreen> {
             context: context,
             child: FutureBuilder(
               future: EventsController.getAllEvent(currentPage),
-              builder: (context, AsyncSnapshot<dynamic>snapshot) {
+              builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting){
                   return Center(child: CircularProgressIndicator());
                 }

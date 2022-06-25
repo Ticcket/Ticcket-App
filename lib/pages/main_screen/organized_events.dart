@@ -57,7 +57,7 @@ class _OrganizedEventsScreenState extends State<OrganizedEventsScreen> {
                 else if (snapshot.hasError){
                   return Text("ERROR: ${snapshot.error}");
                 }
-                else if (snapshot.connectionState == ConnectionState.done){
+                else if (snapshot.connectionState == ConnectionState.done && snapshot.data != null){
                   print(snapshot.data.isEmpty);
                   if(snapshot.data.isEmpty)
                     return Text("Empty");

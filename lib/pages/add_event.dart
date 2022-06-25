@@ -266,7 +266,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   if (this._logo == null) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("Logo can't Be Empty"),
-                      duration: Duration(milliseconds: 300),
+                      duration: Duration(milliseconds: 600),
                     ));
                   }else {
                     var response = await EventsController.addEvent(

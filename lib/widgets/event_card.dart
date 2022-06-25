@@ -3,6 +3,7 @@ import 'package:ticcket/models/event.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ticcket/pages/views/event_details.dart';
 import 'package:ticcket/services/global.dart';
+import 'package:ticcket/widgets/star_rating.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -80,27 +81,9 @@ class EventCard extends StatelessWidget {
                         vertical: 4,
                         horizontal: 8,
                       ),
-                      decoration: BoxDecoration(
-                        color: Colors.blue[50],
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.30,
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: Colors.yellow,
-                            ),
-                            const SizedBox(width: 5,),
-                            Text(
-                              event.rating == null ? "Not Rated Yet" : "${event.rating}",
-                              style: TextStyle(
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ],
-                        ),
+                      child: StarRating(
+                        color: Colors.yellow,
+                        rating: event.rating ?? 0.0,
                       ),
                     )
                   ],

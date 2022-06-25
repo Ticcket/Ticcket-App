@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:ticcket/core/res/app.dart';
 import 'package:ticcket/models/event.dart';
 import 'package:ticcket/models/user.dart';
+import 'package:ticcket/models/event_feedback.dart';
 import 'package:ticcket/services/global.dart';
 // import 'package:http_parser/http_parser.dart';
 
@@ -48,6 +49,62 @@ class EventsController {
     }
   
     return us;
+  }
+
+    static Future<Map> addFeedback(int event_id, double rating, String comment) async {
+    User user = await Global.getUser();
+    
+    Map result = {};
+    try {
+      _headers.addAll({"Authorization": "Bearer ${user.token}"});
+      
+      var response = await client.post(
+        headers: _headers,
+        body: {
+          "rating": rating.toString(),
+          "comment": comment,
+          "event_id": event_id.toString(),
+        },
+        Uri.http(AppConstants.server, "api/feedbacks")
+      );
+    
+      print(response.body);
+      result = jsonDecode(response.body);
+
+
+    }catch(e) {
+      print(e);
+    }
+
+    return result;
+  }
+
+  static Future<List> getFeedbacks(int event_id, int page_id) async {
+    // http://134.209.85.188/api/events/1/feedbacks?page=1
+    User user = await Global.getUser();
+    
+    List feedbacks = [];
+    try {
+      _headers.addAll({"Authorization": "Bearer ${user.token}"});
+      var response = await client.get(
+        headers: _headers,
+        Uri.http(AppConstants.server, "api/events/$event_id/feedbacks")
+      );
+
+      if (response.statusCode == 200){
+      var resp = jsonDecode(response.body)['data'];
+        for(Map t in resp){
+          t['rating'] = t['rating'].toDouble();
+          // print(t);
+          feedbacks.add(EventFeedback.fromJson(t));
+        }      
+      }
+
+    }catch (e) {
+      print(e);
+    }
+
+    return feedbacks;
   }
 
   static Future<Map> addOrganizer(String user_email, int event_id) async {
@@ -202,7 +259,7 @@ class EventsController {
           "page": page_id.toString(),
         })
       );
-
+      // print(response.body);
       if (response.statusCode == 200){
       var resp = jsonDecode(response.body);
         for(Map t in resp["data"]){
@@ -214,12 +271,11 @@ class EventsController {
         return [resp['last_page'], events];
       }
 
-      return events;
     }catch (e) {
       print(e);
-      return null;
     }
-    
+
+    return [1, events];
   }
 
   static Future<dynamic> getOrganizing() async {

@@ -4,16 +4,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/models/announcement.dart';
 import 'package:ticcket/models/event.dart';
+import 'package:ticcket/models/event_feedback.dart';
 import 'package:ticcket/models/user.dart';
 import 'package:ticcket/pages/add_announcement.dart';
+import 'package:ticcket/pages/add_feedback.dart';
 import 'package:ticcket/pages/scanner.dart';
 import 'package:ticcket/pages/show_organizers.dart';
-import 'package:ticcket/services/Announcements_controller.dart';
+import 'package:ticcket/services/announcements_controller.dart';
 import 'package:ticcket/services/tickets_controller.dart';
 import 'package:ticcket/services/events_controller.dart';
 import 'package:ticcket/widgets/loading.dart';
+import 'package:ticcket/widgets/star_rating.dart';
 
-class EventDetails extends StatelessWidget {
+class EventDetails extends StatefulWidget {
   final Event event;
   final User user;
   final List organizers;
@@ -25,6 +28,21 @@ class EventDetails extends StatelessWidget {
     required this.organizers,
     this.isBooked = false
   }) : super(key: key);
+
+  @override
+  State<EventDetails> createState() => _EventDetailsState();
+}
+
+class _EventDetailsState extends State<EventDetails> {
+
+  PageController pv = PageController();
+  int pageIdx = 0;
+
+  List allFeedbacks = [];
+
+  int currentPage = 1;
+
+  int lastPage = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -60,18 +78,18 @@ class EventDetails extends StatelessWidget {
           ),
         ),
         actions: [
-          event.creator == user.id ?
+          widget.event.creator == widget.user.id ?
           IconButton(
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => ShowOrganizersScreen(event: event,)
+                  builder: (context) => ShowOrganizersScreen(event: widget.event,)
                 )
               );
             },
             icon: Icon(Icons.people, size: 30, color: Colors.blue[300],),
           ) : Container(),
-          event.creator == user.id ?
+          widget.event.creator == widget.user.id ?
           IconButton(
             onPressed: () {
               showDialog(
@@ -90,7 +108,7 @@ class EventDetails extends StatelessWidget {
                       ),
                       onPressed: () async {
                         showLoading(context);
-                        bool c = await EventsController.delete(event.id);
+                        bool c = await EventsController.delete(widget.event.id);
                         Navigator.of(context).pop();
                         print(c);
                         if(c) {
@@ -117,162 +135,16 @@ class EventDetails extends StatelessWidget {
           ) : Container(),
         ],
       ),
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            leading: Container(),
-            expandedHeight: MediaQuery.of(context).size.height * 0.305,
-            flexibleSpace: Container(
-              height: MediaQuery.of(context).size.height * .35,
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              width: double.infinity,
-              child: Image.network(
-                "${event.logo!}",
-                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              Stack(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(top: 40, right: 14, left: 14),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Offline',
-                          style: GoogleFonts.poppins(
-                            fontSize: 15,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '${event.title}',
-                              style: GoogleFonts.poppins(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              'Free',
-                              style: GoogleFonts.poppins(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        Text(
-                          '${event.description}',
-                          style: GoogleFonts.poppins(
-                            fontSize: 15,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Start At:',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10,),
-                                  Text(
-                                    "${event.startAt}",
-                                    style: TextStyle(color: AppColors.primaryColor,),
-                                  ),
-                                ],
-                              ),
-                            ),
-                    
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'End At:',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10,),
-                                  Text(
-                                    "${event.endAt}",
-                                    style: TextStyle(color: AppColors.primaryColor,),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        Text(
-                          'Announcements',
-                          style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Divider(thickness: 1, color: Colors.grey,),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: FutureBuilder(
-                            future: AnnouncementsController.getAllAnnouncements(event.id),
-                            builder: (context, AsyncSnapshot snapshot) {
-                              if(snapshot.connectionState == ConnectionState.done){ 
-                                if(snapshot.data.isEmpty)
-                                  return Center(child: Text("Nothing To Show"),);
-                                List<Widget> anns = [];
-                                print(snapshot.data);
-                                for(var d in snapshot.data){
-                                  anns.add(_announcement(context, d));
-                                }
-                                return Column(children: anns,);
-                              }
-                              return Center(child: CircularProgressIndicator());
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ]),
-          ),
+      body: PageView(
+        controller: pv,
+        onPageChanged: (index) {
+          setState(() {
+            pageIdx = index;
+          });
+        },
+        children: [
+          _eventPage(context),
+          _feedbackPage(context)
         ],
       ),
       bottomNavigationBar: Container(
@@ -289,14 +161,14 @@ class EventDetails extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: organizers.contains(user.id) ?
+              child: widget.organizers.contains(widget.user.id) ?
               IconButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => AddAnnouncementScreen(event_id: event.id)
+                      builder: (context) => AddAnnouncementScreen(event_id: widget.event.id)
                     )
-                  );
+                  ).then((value) => setState(() {}));
                 },
                 icon: Icon(
                   Icons.assistant_rounded,
@@ -304,8 +176,13 @@ class EventDetails extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ) : IconButton(
+                splashColor: Colors.blue,
+                splashRadius: 10,
                 onPressed: () {
-                  
+                  setState(() {
+                    pageIdx = 1;
+                  });
+                  pv.animateToPage(pageIdx, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
                 },
                 icon: Icon(
                   Icons.feedback_outlined,
@@ -316,12 +193,12 @@ class EventDetails extends StatelessWidget {
             ),
             SizedBox(width: 20),
             Expanded(
-              child: organizers.contains(user.id) ?
+              child: widget.organizers.contains(widget.user.id) ?
               InkWell(
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => QRScanner(event_id: event.id)
+                      builder: (context) => QRScanner(event_id: widget.event.id)
                     )
                   );
                 },
@@ -343,7 +220,7 @@ class EventDetails extends StatelessWidget {
               ) : InkWell(
                 onTap: () async {
                   showLoading(context);
-                  var resp = await TicketsController.bookTicket(event.id);
+                  var resp = await TicketsController.bookTicket(widget.event.id);
                   print(resp);
                   Navigator.of(context).pop();
                 },
@@ -369,6 +246,168 @@ class EventDetails extends StatelessWidget {
       ),
     );
   }
+
+  _eventPage(context) {
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          leading: Container(),
+          expandedHeight: MediaQuery.of(context).size.height * 0.305,
+          flexibleSpace: Container(
+            height: MediaQuery.of(context).size.height * .35,
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            width: double.infinity,
+            child: Image.network(
+              "${widget.event.logo!}",
+              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null,
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(top: 40, right: 14, left: 14),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Offline',
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${widget.event.title}',
+                            style: GoogleFonts.poppins(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            'Free',
+                            style: GoogleFonts.poppins(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Text(
+                        '${widget.event.description}',
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Start At:',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const SizedBox(width: 10,),
+                                Text(
+                                  "${widget.event.startAt}",
+                                  style: TextStyle(color: AppColors.primaryColor,),
+                                ),
+                              ],
+                            ),
+                          ),
+                  
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Text(
+                                  'End At:',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const SizedBox(width: 10,),
+                                Text(
+                                  "${widget.event.endAt}",
+                                  style: TextStyle(color: AppColors.primaryColor,),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Text(
+                        'Announcements',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Divider(thickness: 1, color: Colors.grey,),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FutureBuilder(
+                          future: AnnouncementsController.getAllAnnouncements(widget.event.id),
+                          builder: (context, AsyncSnapshot snapshot) {
+                            if(snapshot.connectionState == ConnectionState.done){ 
+                              if(snapshot.data.isEmpty)
+                                return Center(child: Text("Nothing To Show"),);
+                              List<Widget> anns = [];
+                              // print(snapshot.data);
+                              for(var d in snapshot.data){
+                                anns.add(_announcement(context, d));
+                              }
+                              return Column(children: anns,);
+                            }
+                            return Center(child: CircularProgressIndicator());
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ]),
+        ),
+      ],
+    );
+  }
+
   _announcement(context, Announcement ann) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -425,6 +464,105 @@ class EventDetails extends StatelessWidget {
               ),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  _feedbackPage(context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AddFeedbackScreen(event_id: widget.event.id), 
+                    )
+                  ).then((value) => setState(() {}));
+                },
+                icon: Icon(Icons.add),
+                label: Text("Create A Feedback")
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: FutureBuilder(
+              future: EventsController.getFeedbacks(widget.event.id, currentPage),
+              builder: (context, AsyncSnapshot snapshot) {
+                if(snapshot.connectionState == ConnectionState.done){ 
+                  if(snapshot.data.isEmpty)
+                    return Center(child: Text("Nothing To Show"),);
+                  List<Widget> feedbacks = [];
+                   // print(snapshot.data);
+                  for(var d in snapshot.data){
+                    feedbacks.add(_feedback(context, d));
+                  }
+                  return Column(children: feedbacks,);
+                }
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _feedback(context, EventFeedback feedback) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 4,
+              horizontal: 8,
+            ),
+            child: StarRating(
+              color: Colors.yellow,
+              rating: feedback.rating,
+            ),
+          ),
+          Text(
+            "${feedback.comment}",
+            style: TextStyle(
+              color: Colors.blueGrey[700],
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Icon(
+                Icons.timelapse,
+                color: Colors.blue[300],
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                DateFormat.MMMd().format(feedback.createdAt),
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
         ],
       ),
     );
