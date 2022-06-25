@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ticcket/core/res/color.dart';
-import 'package:ticcket/services/Announcements_controller.dart';
+import 'package:ticcket/services/announcements_controller.dart';
 import 'package:ticcket/widgets/loading.dart';
 
 class AddAnnouncementScreen extends StatefulWidget {

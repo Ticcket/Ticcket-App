@@ -50,7 +50,7 @@ class AnnouncementsController {
         headers: _headers,
         Uri.http(AppConstants.server, 'api/events/$event_id/announcements')
       );
-      print(response.body);
+      // print(response.body);
       if (response.statusCode == 200) {
         var resp = jsonDecode(response.body)['data'];
         for (var a in resp) {
