@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     else if (snapshot.hasError){
                       return Text("ERROR: ${snapshot.error}");
                     }
-                    else if (snapshot.connectionState == ConnectionState.done){
+                    else if (snapshot.connectionState == ConnectionState.done && snapshot.data != null){
                       List tEvents = snapshot.data;
                       if(tEvents.isEmpty)
                         return Center(child: Text("No Top Events"));
@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       );
                     }
-                    return Text("Error");
+                    return Center(child: Text("Error"));
                   }
                 ),
                 const SizedBox(

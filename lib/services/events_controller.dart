@@ -175,8 +175,10 @@ class EventsController {
 
     if (response.statusCode == 200){
       var resp = jsonDecode(response.body);
-      for(Map e in resp['data'])
+      for(Map e in resp['data']){
+        e['rating'] = e['rating'].toDouble();
         tEvents.add(Event.fromJson(e));
+      }
     }
 
     return tEvents;
@@ -203,8 +205,11 @@ class EventsController {
 
       if (response.statusCode == 200){
       var resp = jsonDecode(response.body);
-        for(var t in resp["data"])
+        for(Map t in resp["data"]){
+          t['rating'] = t['rating'] != null ? double.parse(t['rating']) : null;
+          // print(t);
           events.add(Event.fromJson(t));
+        }
       
         return [resp['last_page'], events];
       }
@@ -231,8 +236,12 @@ class EventsController {
 
     if (response.statusCode == 200){
       var resp = jsonDecode(response.body);
-      for(var t in resp["data"])
+      print(resp);
+      for(Map t in resp["data"]){
+        t['rating'] = t['rating'] != null ? double.parse(t['rating']) : null;
+        print(t);
         events.add(Event.fromJson(t));
+      }
     
       // print(events);
       return events;

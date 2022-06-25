@@ -64,7 +64,7 @@ class _EventsScreenState extends State<EventsScreen> {
                 else if (snapshot.hasError){
                   return Text("ERROR: ${snapshot.error}");
                 }
-                else if (snapshot.connectionState == ConnectionState.done){
+                else if (snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
                   if(snapshot.data[1].isEmpty)
                     return Text("Empty");
                   List events = snapshot.data![1];
