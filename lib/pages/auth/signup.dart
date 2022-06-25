@@ -186,7 +186,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       const SizedBox(height: 10,),
-                      _loading ? CircularProgressIndicator() : ElevatedButton(
+                      _loading ? Center(child: CircularProgressIndicator()) : ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(AppColors.primaryColor),
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
