@@ -134,130 +134,130 @@ class EventDetails extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              Expanded(
-                child: Stack(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(top: 40, right: 14, left: 14),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30),
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Offline',
-                            style: GoogleFonts.poppins(
-                              fontSize: 15,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '${event.title}',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                'Free',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 15),
-                          Text(
-                            '${event.description}',
-                            style: GoogleFonts.poppins(
-                              fontSize: 15,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          const SizedBox(height: 15),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Start At:',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10,),
-                                    Text(
-                                      "${event.startAt}",
-                                      style: TextStyle(color: AppColors.primaryColor,),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                      
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'End At:',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10,),
-                                    Text(
-                                      "${event.endAt}",
-                                      style: TextStyle(color: AppColors.primaryColor,),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 15),
-                          Text(
-                            'Announcements',
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Divider(thickness: 1, color: Colors.grey,),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: FutureBuilder(
-                              future: AnnouncementsController.getAllAnnouncements(event.id),
-                              builder: (context, AsyncSnapshot snapshot) {
-                                if(snapshot.connectionState == ConnectionState.done){ 
-                                  List<Widget> anns = [];
-                                  print(snapshot.data);
-                                  for(var d in snapshot.data){
-                                    anns.add(_announcement(context, d));
-                                  }
-                                  return Column(children: anns,);
-                                }
-                                return Center(child: CircularProgressIndicator());
-                              },
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                        ],
+              Stack(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(top: 40, right: 14, left: 14),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
                       ),
                     ),
-                  ],
-                ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Offline',
+                          style: GoogleFonts.poppins(
+                            fontSize: 15,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '${event.title}',
+                              style: GoogleFonts.poppins(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text(
+                              'Free',
+                              style: GoogleFonts.poppins(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 15),
+                        Text(
+                          '${event.description}',
+                          style: GoogleFonts.poppins(
+                            fontSize: 15,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Start At:',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10,),
+                                  Text(
+                                    "${event.startAt}",
+                                    style: TextStyle(color: AppColors.primaryColor,),
+                                  ),
+                                ],
+                              ),
+                            ),
+                    
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'End At:',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10,),
+                                  Text(
+                                    "${event.endAt}",
+                                    style: TextStyle(color: AppColors.primaryColor,),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 15),
+                        Text(
+                          'Announcements',
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Divider(thickness: 1, color: Colors.grey,),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FutureBuilder(
+                            future: AnnouncementsController.getAllAnnouncements(event.id),
+                            builder: (context, AsyncSnapshot snapshot) {
+                              if(snapshot.connectionState == ConnectionState.done){ 
+                                if(snapshot.data.isEmpty)
+                                  return Center(child: Text("Nothing To Show"),);
+                                List<Widget> anns = [];
+                                print(snapshot.data);
+                                for(var d in snapshot.data){
+                                  anns.add(_announcement(context, d));
+                                }
+                                return Column(children: anns,);
+                              }
+                              return Center(child: CircularProgressIndicator());
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ]),
           ),
