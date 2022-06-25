@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   var user = User.fromJson(response[1]['data']);
                                   SharedPreferences pref = await SharedPreferences.getInstance();
                                   pref.setString("object", user.toJson());
-                                  Navigator.of(context).pushReplacementNamed('/home', arguments: user);
+                                  Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false ,arguments: user);
                                 }else if (response != null && !response[0]){
                                   print(response[1]);
                                 }
