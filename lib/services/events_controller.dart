@@ -230,10 +230,11 @@ class EventsController {
       Uri.http(AppConstants.server, 'api/events/e/top')
     );
 
+    // print(response.body);
     if (response.statusCode == 200){
       var resp = jsonDecode(response.body);
       for(Map e in resp['data']){
-        e['rating'] = e['rating'].toDouble();
+        e['rating'] = e['rating'] != null ? double.parse(e['rating']) : null;
         tEvents.add(Event.fromJson(e));
       }
     }
