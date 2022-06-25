@@ -4,7 +4,6 @@ import 'package:ticcket/core/res/color.dart';
 import 'package:ticcket/models/event.dart';
 import 'package:ticcket/models/user.dart';
 import 'package:ticcket/services/events_controller.dart';
-import 'package:ticcket/widgets/loading.dart';
 import 'package:textfield_search/textfield_search.dart';
 
 class AddOrganizerScreen extends StatefulWidget {
@@ -19,6 +18,8 @@ class _AddOrganizerScreenState extends State<AddOrganizerScreen> {
 
   TextEditingController txtController = TextEditingController();
 
+  bool _loading = false;
+
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
@@ -31,7 +32,9 @@ class _AddOrganizerScreenState extends State<AddOrganizerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(widget.event.title),
+      ),
         body: Center(
         child: ListView(
           shrinkWrap: true,
@@ -81,6 +84,7 @@ class _AddOrganizerScreenState extends State<AddOrganizerScreen> {
                       ),*/
                     ),
                   ),
+                  !_loading ?
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(AppColors.primaryColor),
@@ -91,17 +95,41 @@ class _AddOrganizerScreenState extends State<AddOrganizerScreen> {
                       ),
                     ),
                     onPressed: () async {
-                      showLoading(context);
+                      setState(() {
+                        _loading = true;
+                      });
+
+                      if(txtController.text.isNotEmpty){
+
+                        Map resp = await EventsController.addOrganizer(txtController.text, widget.event.id);
+                        if(resp.isNotEmpty){
+
+                          Navigator.of(context).pop();
+                          return ;
+
+                        }else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("This Email Is Invaild"),
+                            duration: Duration(milliseconds: 600),
+                          ));
+                        }
                       
-                      
-                      if(Navigator.canPop(context))
-                        Navigator.of(context).pop();
+                      }else{
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("User Email can't Be Empty"),
+                          duration: Duration(milliseconds: 600),
+                        ));
+                      }
+
+                      setState(() {
+                        _loading = false;
+                      });
                     },
                     child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                       child: Text('Add User', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white,),),
                     ),
-                  ),
+                  ) : Center(child: CircularProgressIndicator(),),
                 ],
               ),
             ),

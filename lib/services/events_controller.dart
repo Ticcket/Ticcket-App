@@ -50,7 +50,34 @@ class EventsController {
     return us;
   }
 
-  static Future getOrganizers(int event_id) async {
+  static Future<Map> addOrganizer(String user_email, int event_id) async {
+    User user = await Global.getUser();
+    Map result = {};
+    try {
+      _headers.addAll({"Authorization": "Bearer ${user.token}"});
+      
+      var response = await client.post(
+        headers: _headers,
+        body: {
+          "user_email": user_email,
+          'event_id': event_id.toString()
+        },
+        Uri.http(AppConstants.server, "api/organizers")
+      );
+
+      if(response.statusCode == 200) {
+        result = jsonDecode(response.body)['data'];
+      }
+
+
+    }catch(e) {
+      print(e);
+    }
+
+    return result;
+  }
+
+  static Future<List> getOrganizers(int event_id) async {
     User user = await Global.getUser();
     List orgs = [];
     try {
