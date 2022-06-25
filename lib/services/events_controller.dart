@@ -14,6 +14,68 @@ class EventsController {
   };
 
 
+  static Future<List> searchUsers({String? name, String? email, int? limit}) async {
+    User user = await Global.getUser();
+    
+    List us = [];
+    Map<String, dynamic> body = {};
+    try {
+      _headers.addAll({"Authorization": "Bearer ${user.token}"});
+
+      if(name != null && name.isNotEmpty)
+        body.addAll({"name": name});
+      else if(email != null && email.isNotEmpty)
+        body.addAll({"email": email});
+      
+      if(limit != null)
+        body.addAll({'limit': limit});
+
+      var response = await client.get(
+        headers: _headers,
+        Uri.http(AppConstants.server, "api/user/search", body)
+      );
+
+      // print(response.body);
+
+      if(response.statusCode == 200) {
+        var resp = jsonDecode(response.body)['data'];
+        for(var u in resp['result'])
+          us.add(User.fromJson(u));
+      }
+      // print(us);
+    }catch (e) {
+      print(e);
+    }
+  
+    return us;
+  }
+
+  static Future getOrganizers(int event_id) async {
+    User user = await Global.getUser();
+    List orgs = [];
+    try {
+      _headers.addAll({"Authorization": "Bearer ${user.token}"});
+      
+      var response = await client.get(
+        headers: _headers,
+        Uri.http(AppConstants.server, "api/events/$event_id/organizers")
+      );
+
+      if(response.statusCode == 200) {
+        var resp = jsonDecode(response.body)['data'];
+        for(var u in resp)
+          orgs.add(User.fromJson(u));
+      }
+
+
+    }catch(e) {
+      print(e);
+    }
+
+    return orgs;
+  }
+
+
   static Future<bool> delete(int event_id) async {
     User user = await Global.getUser();
 

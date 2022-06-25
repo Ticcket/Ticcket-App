@@ -7,6 +7,7 @@ import 'package:ticcket/models/event.dart';
 import 'package:ticcket/models/user.dart';
 import 'package:ticcket/pages/add_announcement.dart';
 import 'package:ticcket/pages/scanner.dart';
+import 'package:ticcket/pages/show_organizers.dart';
 import 'package:ticcket/services/Announcements_controller.dart';
 import 'package:ticcket/services/tickets_controller.dart';
 import 'package:ticcket/services/events_controller.dart';
@@ -59,6 +60,17 @@ class EventDetails extends StatelessWidget {
           ),
         ),
         actions: [
+          event.creator == user.id ?
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ShowOrganizersScreen(event: event,)
+                )
+              );
+            },
+            icon: Icon(Icons.people, size: 30, color: Colors.blue[300],),
+          ) : Container(),
           event.creator == user.id ?
           IconButton(
             onPressed: () {
