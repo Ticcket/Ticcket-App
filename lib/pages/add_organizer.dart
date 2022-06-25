@@ -20,13 +20,6 @@ class _AddOrganizerScreenState extends State<AddOrganizerScreen> {
   TextEditingController txtController = TextEditingController();
 
   @override
-  void initState() {
-    ass();
-    txtController.addListener(_printLatestValue);
-    super.initState();
-  }
-
-  @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
@@ -34,9 +27,6 @@ class _AddOrganizerScreenState extends State<AddOrganizerScreen> {
     super.dispose();
   }
 
-  ass() async {
-    EventsController.searchUsers(email: "co");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,21 +109,5 @@ class _AddOrganizerScreenState extends State<AddOrganizerScreen> {
         ),
       ),
     );
-  }
-
-  _printLatestValue() {
-    print("Textfield value: ${txtController.text}");
-  }
-
-  Future<List> fetchData() async {
-    await Future.delayed(Duration(milliseconds: 100));
-    List<String> _list = [];
-    String _inputText = txtController.text;
-    // create a list from the text input of three items
-    // to mock a list of items from an http call
-    _list.add(_inputText + ' Item 1');
-    _list.add(_inputText + ' Item 2');
-    _list.add(_inputText + ' Item 3');
-    return _list;
   }
 }
