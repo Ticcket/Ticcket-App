@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ticcket/services/auth.dart';
 import 'package:ticcket/services/global.dart';
@@ -72,7 +73,6 @@ class ProfileScreen extends StatelessWidget {
                 subtitle: Text(
                     "${DateFormat.MMMEd().format(DateTime.parse(snapshot.data.createdAt))}"),
               ),
-              const SizedBox(height: 20,),
               Center(
                 child: ElevatedButton(
                   child: const Text("Change Data"),
@@ -93,10 +93,34 @@ class ProfileScreen extends StatelessWidget {
                   },
                 ),
               ),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Made With ♥ By ",
+                      style: GoogleFonts.poppins(),
+                    ),
+                    Text(
+                      "Kareem El-Giushy",
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w700
+                      ),
+                    ),
+                    Text(
+                      "GDSC MU",
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700
+                      )
+                    ),
+                  ],
+                ),
+              )
             ],
           );
         }else {
-          return Text("karee");
+          return Center(child: Text("Something Went Wrong"));
         }
       }
     );
