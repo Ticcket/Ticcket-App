@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ticcket/models/user.dart';
 
 class ScannedUserScreen extends StatelessWidget {
@@ -48,6 +49,30 @@ class ScannedUserScreen extends StatelessWidget {
                 child: Text("Approve")
               ),
             ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Made With ♥ By ",
+                    style: GoogleFonts.poppins(),
+                  ),
+                  Text(
+                    "Kareem El-Giushy",
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w700
+                    ),
+                  ),
+                  Text(
+                    "GDSC MU",
+                    style: GoogleFonts.poppins(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700
+                    )
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
